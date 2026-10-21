@@ -1,0 +1,64 @@
+{
+  "name": "remim-browser",
+  "version": "0.1.0",
+  "description": "Remim — lightweight cross-platform browser with optional Supabase sync",
+  "private": true,
+  "main": "electron/main.cjs",
+  "author": "Remim",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:desktop": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron . --dev\"",
+    "build": "npm run test && tsc --noEmit && vite build",
+    "start": "electron .",
+    "build:win": "npm run build && electron-builder --win nsis --x64 --publish never",
+    "build:linux": "npm run build && electron-builder --linux AppImage --x64 --publish never",
+    "test": "node --test tests/*.test.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "concurrently": "^9.2.0",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "wait-on": "^8.0.4"
+  },
+  "build": {
+    "appId": "app.remim.browser",
+    "productName": "Remim Browser",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "src/browser-utils.cjs",
+      "dist/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Remim-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Remim Browser"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Network;WebBrowser;"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+release/
+.env
+.env.local
+.DS_Store
+*.log
+apps/android/.dart_tool/
+apps/android/.packages
+apps/android/build/
+apps/android/android/
+.build/
