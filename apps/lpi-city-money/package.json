@@ -1,0 +1,35 @@
+{
+  "name": "lpi-city-money",
+  "version": "0.1.0",
+  "description": "LPI City Money - fictional play-currency game for friends",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "dev": "electron .",
+    "start": "electron .",
+    "prepare:web": "node scripts/prepare-web.cjs",
+    "android:setup": "npm run prepare:web && cap add android && cap sync android",
+    "dist:win": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/cli": "8.5.3",
+    "@capacitor/core": "8.5.3",
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.gemaa.lpicity",
+    "productName": "LPI City Money",
+    "directories": { "output": "release" },
+    "files": ["index.html", "main.cjs", "package.json"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }] },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
