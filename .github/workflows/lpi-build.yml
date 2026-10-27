@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   windows-installer:
-    name: Windows EXE installer
+    name: Windows installer and portable ZIP
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
       - name: Install app build dependencies
         working-directory: apps/lpi-city-money
         run: npm install
-      - name: Build Windows installer
+      - name: Build Windows installer and portable ZIP
         working-directory: apps/lpi-city-money
         run: npm run dist:win
       - name: Upload installer
@@ -34,6 +34,12 @@ jobs:
         with:
           name: LPI-Windows-EXE
           path: apps/lpi-city-money/release/*.exe
+          if-no-files-found: error
+      - name: Upload portable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: LPI-Windows-Portable
+          path: apps/lpi-city-money/release/*.zip
           if-no-files-found: error
 
   android-apk:
