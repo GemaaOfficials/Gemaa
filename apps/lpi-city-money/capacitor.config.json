@@ -1,0 +1,7 @@
+{
+  "appId": "com.gemaa.lpicity",
+  "appName": "LPI City Money",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": { "androidScheme": "https" }
+}
