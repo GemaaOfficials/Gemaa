@@ -304,6 +304,69 @@ async function api(action,payload){
  if(!response.ok)throw new Error(result.error||"Server request failed.");
  return result;
 }
+
+function showReceipt(title,subtitle,rows,reference){
+ reference=reference||("LPI-"+Date.now().toString(36).toUpperCase());
+ state.lastReceipt=title+"\n"+subtitle+"\n"+rows.map(function(r){return r.label+": "+r.value}).join("\n")+"\nReference: "+reference+"\nFictional LPI game receipt only.";
+ $("receiptTitle").textContent=title;$("receiptSubtitle").textContent=subtitle;
+ $("receiptRows").innerHTML=rows.map(function(r){return '<div class="receipt-row"><span>'+esc(r.label)+'</span><strong>'+esc(r.value)+'</strong></div>'}).join("");
+ $("receiptRef").textContent="REFERENCE · "+reference;openModal("receiptModal");
+}
+function renderMediaCards(items){
+ const box=$("mediaCardGallery");if(!box)return;
+ if(!items.length){box.innerHTML='<div class="empty" style="grid-column:1/-1">No city cards have been sent to you yet.</div>';return}
+ box.innerHTML=items.map(function(card){
+  const media=card.content_type==="video/mp4"?'<video controls playsinline preload="metadata" src="'+esc(card.media_url)+'"></video>':'<img loading="lazy" alt="'+esc(card.title)+'" src="'+esc(card.media_url)+'">';
+  return '<article class="media-card"><div class="media-visual">'+media+'</div><div class="media-card-copy"><strong>'+esc(card.title)+'</strong><small>'+esc(dateText(card.created_at))+'</small></div></article>';
+ }).join("");
+}
+function renderAdminSpinConfig(){
+ const rewards=state.spinRewardConfig||[],coins=rewards.filter(function(x){return x.type==="coins"}).map(function(x){return x.amount}),cash=rewards.find(function(x){return x.type==="cashback"}),vip=rewards.find(function(x){return x.type==="vip"});
+ if(coins.length)$("spinCoins").value=coins.join(",");
+ $("spinCashbackPct").value=cash?cash.amount:0;$("spinVipMinutes").value=vip?vip.amount:0;
+ $("spinPrizeList").innerHTML=rewards.map(function(x){
+  const desc=x.type==="coins"?"Added to your LPI game balance":x.type==="cashback"?"One-use coupon for next simulated transfer":"Animated VIP crown pass";
+  return '<div class="listitem"><div class="itemicon">'+(x.type==="coins"?"＋":x.type==="cashback"?"％":"♛")+'</div><div class="itemtext"><strong>'+esc(x.label)+'</strong><small>'+desc+'</small></div><div class="itemamount"><small>weight '+esc(x.weight)+'</small></div></div>';
+ }).join("")||'<div class="empty">No rewards configured.</div>';
+}
+function versionParts(value){return String(value||"0").replace(/^lpi-v/i,"").replace(/^v/i,"").split(/[.+-]/).slice(0,3).map(function(n){const x=parseInt(n,10);return Number.isFinite(x)?x:0})}
+function isNewerVersion(latest,current){const a=versionParts(latest),b=versionParts(current);for(let i=0;i<3;i++){if(a[i]>b[i])return true;if(a[i]<b[i])return false}return false}
+async function checkForUpdates(){
+ try{
+  const response=await fetch(RELEASE_API,{headers:{Accept:"application/vnd.github+json"},cache:"no-store"});
+  if(!response.ok)return false;
+  const release=await response.json(),tag=String(release.tag_name||"").replace(/^lpi-v/i,"").replace(/^v/i,"");
+  if(!tag||!isNewerVersion(tag,APP_VERSION))return false;
+  state.updateRelease=release;$("updateBannerVersion").textContent="v"+tag;$("updateBanner").classList.remove("hidden");
+  $("updateTitle").textContent="LPI v"+tag+" is ready";$("updateNotes").textContent=String(release.body||"A new build includes improvements and fixes.").slice(0,500);
+  $("updateVersionTag").textContent="Installed v"+APP_VERSION+" → Available v"+tag;return true;
+ }catch(e){return false}
+}
+function openUpdateAsset(){
+ const release=state.updateRelease;
+ if(!release){window.open("https://github.com/GemaaOfficials/Gemaa/releases/latest","_blank","noopener");return}
+ const assets=Array.isArray(release.assets)?release.assets:[],android=/Android/i.test(navigator.userAgent);
+ const asset=assets.find(function(a){return android?/\.apk$/i.test(a.name):/\.exe$/i.test(a.name)});
+ const url=asset&&asset.browser_download_url?asset.browser_download_url:(release.html_url||"https://github.com/GemaaOfficials/Gemaa/releases/latest");
+ const link=document.createElement("a");link.href=url;link.target="_blank";link.rel="noopener";document.body.appendChild(link);link.click();link.remove();
+}
+async function showUpdateModal(){
+ if(!state.updateRelease)await checkForUpdates();
+ if(!state.updateRelease){$("updateTitle").textContent="No newer published build found";$("updateNotes").textContent="The update checker looks for published GitHub Releases. When a newer version is published, it will appear here.";$("updateVersionTag").textContent="Installed v"+APP_VERSION;$("updateDownloadBtn").textContent="Open GitHub releases";$("updateRestartBtn").classList.add("hidden")}
+ else{$("updateDownloadBtn").textContent="Download update";$("updateRestartBtn").classList.add("hidden")}
+ openModal("updateModal");
+}
+async function startUpdateFlow(){
+ const button=$("updateDownloadBtn");button.disabled=true;button.textContent="Preparing download…";$("updateProgress").classList.remove("hidden");
+ $("updateMessage").textContent="Opening the official GitHub release asset. Your browser or system download manager shows actual download progress.";
+ try{
+  if(!state.updateRelease)await checkForUpdates();openUpdateAsset();
+  $("updateProgress").classList.add("hidden");$("updateMessage").textContent="Download opened. Install the update, then reopen LPI. Android may ask you to confirm APK installation.";
+  $("updateRestartBtn").classList.remove("hidden");button.textContent="Open download again";
+ }catch(e){$("updateMessage").textContent="Could not open the download. Try the GitHub releases page.";button.textContent="Try again"}
+ finally{button.disabled=false}
+}
+
 function setMode(mode){state.mode=mode;document.querySelectorAll("[data-authmode]").forEach(function(b){b.classList.toggle("active",b.dataset.authmode===mode)});$("authTitle").textContent=mode==="signup"?"Create your account":"Welcome back";$("authSub").textContent=mode==="signup"?"Choose your player name and password.":"Log in to your existing city account.";$("authSubmit").innerHTML=mode==="signup"?"Create city account <span>→</span>":"Log in to LPI <span>→</span>";$("authError").textContent="";$("authPassword").autocomplete=mode==="signup"?"new-password":"current-password"}
 document.querySelectorAll("[data-authmode]").forEach(function(b){b.addEventListener("click",function(){setMode(b.dataset.authmode)})});
 $("authForm").addEventListener("submit",async function(ev){ev.preventDefault();const btn=$("authSubmit");busy(btn,true);$("authError").textContent="";try{const result=await api(state.mode,{name:$("authName").value,password:$("authPassword").value});state.token=result.token;state.user=result.user;localStorage.setItem("lpi_token",state.token);$("authPassword").value="";await enterApp()}catch(e){$("authError").textContent=e.message;toast(e.message,"error")}finally{busy(btn,false)}});
