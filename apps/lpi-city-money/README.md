@@ -51,7 +51,7 @@ Output is created inside release/.
     # Windows: gradlew.bat assembleDebug
     # macOS/Linux: ./gradlew assembleDebug
 
-The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. The in-app updater checks the latest GitHub Release and opens the correct asset for the device; final installation and restart remain user-confirmed.
+The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. v0.2.1 includes the corrected LPI launcher icon and minimum-client-version checks for payment and write actions. The in-app updater checks the latest GitHub Release and opens the correct asset for the device; final installation and restart remain user-confirmed.
 
 ## GitHub Actions artifacts
 
