@@ -1,5 +1,17 @@
 -- LPI City Money v0.3.0 play-wallet support. No real bank or UPI rails.
-alter table public.lpi_spin_config add column if not exists enabled boolean not null default true;
+-- Make the spin configuration table self-initializing for fresh deployments.
+create table if not exists public.lpi_spin_config (
+  id integer primary key default 1 check (id = 1),
+  reward_config jsonb not null default '[{"type":"coins","amount":10,"label":"10 LPI bonus coins","weight":3},{"type":"coins","amount":20,"label":"20 LPI bonus coins","weight":3},{"type":"coins","amount":30,"label":"30 LPI bonus coins","weight":3},{"type":"cashback","amount":20,"label":"20% cashback coupon","weight":1},{"type":"vip","amount":10,"label":"10-minute VIP pass","weight":1}]'::jsonb,
+  enabled boolean not null default false,
+  updated_at timestamptz not null default now(),
+  updated_by uuid references public.lpi_users(id) on delete set null
+);
+alter table public.lpi_spin_config add column if not exists enabled boolean not null default false;
+alter table public.lpi_spin_config alter column enabled set default false;
+insert into public.lpi_spin_config (id, enabled)
+values (1, false)
+on conflict (id) do nothing;
 -- Gift-card style is cosmetic. Any LPI player may redeem regardless of CityCard style.
 create or replace function public.lpi_create_gift_card(p_issuer uuid, p_amount bigint, p_code_hash text, p_brand text)
 returns jsonb language plpgsql security invoker set search_path = '' as $$
