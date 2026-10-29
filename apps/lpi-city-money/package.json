@@ -1,7 +1,7 @@
 {
   "name": "lpi-city-money",
-  "version": "0.1.0",
-  "description": "LPI City Money - fictional play-currency game for friends",
+  "version": "0.2.0",
+  "description": "LPI City Money - polished fictional play-currency game for friends",
   "private": true,
   "main": "main.cjs",
   "scripts": {
@@ -21,12 +21,30 @@
   "build": {
     "appId": "com.gemaa.lpicity",
     "productName": "LPI City Money",
-    "directories": { "output": "release" },
-    "files": ["index.html", "main.cjs", "package.json"],
-    "win": { "target": [
-      { "target": "nsis", "arch": ["x64"] },
-      { "target": "zip", "arch": ["x64"] }
-    ] },
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.html",
+      "main.cjs",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
