@@ -44,7 +44,8 @@
             "x64"
           ]
         }
-      ]
+      ],
+      "icon": "assets/lpi-city-money.ico"
     },
     "nsis": {
       "oneClick": false,
