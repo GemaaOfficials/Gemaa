@@ -413,7 +413,7 @@ function setUpdateCurrentState(title,message,buttonText){
 }
 async function checkForUpdates(){
  state.updateRelease=null;state.updateCheckStatus="checking";
- $("updateBanner").classList.add("hidden");
+ $("updateBanner").classList.add("hidden");$("updateProgress").classList.add("hidden");$("updateProgressText").classList.add("hidden");$("updateMessage").textContent="";
  try{
   const response=await fetch(RELEASE_API,{headers:{Accept:"application/vnd.github+json"},cache:"no-store"});
   if(response.status===404){state.updateCheckStatus="current";return false}
