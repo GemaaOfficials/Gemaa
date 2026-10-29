@@ -9,7 +9,8 @@
     "start": "electron .",
     "prepare:web": "node scripts/prepare-web.cjs",
     "android:setup": "npm run prepare:web && cap add android && cap sync android",
-    "dist:win": "electron-builder --win nsis zip --x64 --publish never"
+    "dist:win": "electron-builder --win nsis zip --x64 --publish never",
+    "test:syntax": "node scripts/validate-html.cjs"
   },
   "devDependencies": {
     "@capacitor/android": "8.5.3",
