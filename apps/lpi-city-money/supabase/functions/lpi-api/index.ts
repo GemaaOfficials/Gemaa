@@ -130,7 +130,7 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     db.from("lpi_media_cards").select("id,title,media_url,content_type,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12),
     db.from("lpi_spin_history").select("id").eq("user_id", user.id).eq("spin_date", new Date().toISOString().slice(0, 10)).maybeSingle(),
     db.from("lpi_spin_config").select("enabled").eq("id", 1).maybeSingle(),
-    db.from("lpi_gift_cards").select("id,card_brand,amount,created_at,expires_at,redeemed_at").eq("issuer_user_id", user.id).order("created_at", { ascending: false }).limit(25)
+    db.from("lpi_gift_cards").select("id,card_brand,amount,created_at,expires_at,redeemed_at,code_display").eq("issuer_user_id", user.id).order("created_at", { ascending: false }).limit(25)
   ]);
   for (const result of results) if (result.error) throw new Error("Could not load all city data. Please refresh.");
   const refreshed = await db.from("lpi_users").select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at").eq("id", user.id).single();
@@ -328,7 +328,8 @@ Deno.serve(async (req: Request) => {
       if (!["LPI NEON", "LPI AURA", "LPI ROYAL"].includes(requestedBrand)) throw new Error("Choose a valid LPI gift-card style.");
       const code = randDigits(16);
       const result = await callRpc("lpi_create_gift_card", { p_issuer: user.id, p_amount: amount, p_code_hash: await shaHex(code), p_brand: requestedBrand });
-      return reply(200, { success: true, code: code, brand: requestedBrand, result: result });
+      const { error: displayCodeError } = await db.from("lpi_gift_cards").update({ code_display: code }).eq("id", result.gift_card_id).eq("issuer_user_id", user.id);
+      return reply(200, { success: true, code: code, brand: requestedBrand, codeSaved: !displayCodeError, result: result });
     }
     if (action === "gift_redeem") {
       const code = String(body.code || "").replace(/\D/g, "");
