@@ -15,7 +15,7 @@ A mobile-friendly, globally synced **fictional city-money game** for friends. Ve
 - Admin media cards: send one image or MP4 video up to 4 MB to a selected player.
 - Recipient lookup displays an animated SVG crown beside active VIP names, so the payer can identify the VIP before confirming a simulated transfer.
 - Animated payment/bill/gift receipts and a GitHub Releases update checker for Windows and Android.
-- One-time gift codes with a 16-digit code and stored-value deduction at creation. Issuers can select any LPI gift-card style; any LPI player can redeem it regardless of their own CityCard style. Issued-card records are saved in the issuer's history; the raw code is shown at creation and should be copied for sharing.
+- One-time gift codes with a 16-digit code and stored-value deduction at creation. Issuers can select any LPI gift-card style; any LPI player can redeem it regardless of their own CityCard style. Issued-card records and active gift codes are available in the issuer's authenticated history for later sharing.
 - Admin controls: grant game coins, create bills, publish announcements, view players and create/revoke sandbox API keys.
 - Bills can be postponed once for 10 minutes; overdue bills show a reminder but never lock the device.
 - Fictional gold price that randomly changes, gold buy/sell and 10/20/30-coin daily SIP plans.
