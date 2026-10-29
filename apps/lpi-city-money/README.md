@@ -102,7 +102,7 @@ The key must have the corresponding permission. These operations change **LPI ga
 ## Important limitations
 
 - This is not UPI and not a financial product. It does not use real bank accounts, real UPI IDs, banking networks or real payment rails. The look is an original LPI design and does not reproduce PhonePe pixel-for-pixel.
-- Apply `supabase/migrations/20261029_lpi_payment_ui_refresh.sql` to the connected Supabase project, then redeploy the `lpi-api` Edge Function. The migration removes the card-style restriction for gift-card redemption and adds the global spin activation column.
+- Apply `apps/lpi-city-money/supabase/migrations/20261029_lpi_payment_ui_refresh.sql` from the repository root to the connected Supabase project, then redeploy the `lpi-api` Edge Function. The migration removes the card-style restriction for gift-card redemption and adds the global spin activation column.
 - A personal QR uses an LPI custom URI, not a UPI QR. Another camera app may display its text; use LPI's in-app scanner to load the recipient.
 - Universal phone-to-phone NFC is not available to all browsers/devices; LPI uses QR plus a 6-digit code and explicit approval.
 - Daily SIP deductions are processed server-side when the player opens the app on/after a due date. This prototype does not run guaranteed unattended scheduled deductions.
