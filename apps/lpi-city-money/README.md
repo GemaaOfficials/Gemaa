@@ -1,18 +1,21 @@
 # LPI City Money
 
-A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.2.2 adds a daily global reward spin, temporary/lifetime VIP passes, animated crowns, admin media cards, payment receipts, and GitHub release update checks. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
+A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.3.0 introduces an original light-purple wallet design, SVG iconography, animated payment review and slide-to-confirm flow, optional device-platform biometric prompt where supported, personal open-amount pay QR codes, saved issued gift cards, and an admin-controlled daily spin. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
 
 ## Features
 
 - Name/password accounts (custom game login, not Supabase Auth); passwords are salted and hashed with PBKDF2 before storage.
 - Random 16-digit **fictional** LPI CityCard, expiry and CVV with a prominent simulated-card label.
-- Direct transfers, simulated card transfers, 6-digit QR/request payments and explicit payer approval.
+- Direct game-coin transfers with a payment review modal and slide-to-confirm interaction; simulated card transfers, 6-digit request payments and explicit payer approval.
+- Personal player QR/pay code identifies the recipient; another player can enter any game-coin amount before confirming. These QR codes are LPI-only, not UPI codes.
+- Optional WebAuthn platform-authenticator prompt (fingerprint, face unlock, or passcode depending on the device) where available. This is a local game UX feature, not banking-grade transaction authentication; it is unavailable in some browsers/file origins.
+- Indian rupee glyph styling is visual formatting only; every amount is still LPI game coins, not rupees or redeemable value.
 - VIP for 1,999 LPI game coins for 30 minutes or 19,999 LPI game coins for lifetime; active VIP has an animated crown shown beside the player name and recipient check, 3% game-coin transfer discount and simulated cashback rewards.
-- Global daily spin with server-checked once-per-UTC-day rewards: configurable LPI coin prizes, one-use simulated cashback coupons, or temporary VIP.
+- Global daily spin with server-checked once-per-UTC-day rewards: configurable LPI coin prizes, one-use simulated cashback coupons, or temporary VIP. Admins can pause/activate the spin globally.
 - Admin media cards: send one image or MP4 video up to 4 MB to a selected player.
 - Recipient lookup displays an animated SVG crown beside active VIP names, so the payer can identify the VIP before confirming a simulated transfer.
 - Animated payment/bill/gift receipts and a GitHub Releases update checker for Windows and Android.
-- One-time gift codes with a 16-digit code, matching card-style restriction, and stored-value deduction at creation.
+- One-time gift codes with a 16-digit code and stored-value deduction at creation. Issuers can select any LPI gift-card style; any LPI player can redeem it regardless of their own CityCard style. Issued-card records are saved in the issuer's history; the raw code is shown at creation and should be copied for sharing.
 - Admin controls: grant game coins, create bills, publish announcements, view players and create/revoke sandbox API keys.
 - Bills can be postponed once for 10 minutes; overdue bills show a reminder but never lock the device.
 - Fictional gold price that randomly changes, gold buy/sell and 10/20/30-coin daily SIP plans.
@@ -98,7 +101,9 @@ The key must have the corresponding permission. These operations change **LPI ga
 
 ## Important limitations
 
-- This is not UPI and not a financial product. It does not use or copy real FamPay/RuPay card numbers, banking networks or real payment rails.
+- This is not UPI and not a financial product. It does not use real bank accounts, real UPI IDs, banking networks or real payment rails. The look is an original LPI design and does not reproduce PhonePe pixel-for-pixel.
+- Apply `supabase/migrations/20261029_lpi_payment_ui_refresh.sql` to the connected Supabase project, then redeploy the `lpi-api` Edge Function. The migration removes the card-style restriction for gift-card redemption and adds the global spin activation column.
+- A personal QR uses an LPI custom URI, not a UPI QR. Another camera app may display its text; use LPI's in-app scanner to load the recipient.
 - Universal phone-to-phone NFC is not available to all browsers/devices; LPI uses QR plus a 6-digit code and explicit approval.
 - Daily SIP deductions are processed server-side when the player opens the app on/after a due date. This prototype does not run guaranteed unattended scheduled deductions.
 - Gold prices are random game values and do not track real gold or market prices.
