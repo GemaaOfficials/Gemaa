@@ -1,13 +1,13 @@
 # LPI City Money
 
-A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.2.1 adds a daily global reward spin, temporary/lifetime VIP passes, animated crowns, admin media cards, payment receipts, and GitHub release update checks. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
+A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.2.2 adds a daily global reward spin, temporary/lifetime VIP passes, animated crowns, admin media cards, payment receipts, and GitHub release update checks. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
 
 ## Features
 
 - Name/password accounts (custom game login, not Supabase Auth); passwords are salted and hashed with PBKDF2 before storage.
 - Random 16-digit **fictional** LPI CityCard, expiry and CVV with a prominent simulated-card label.
 - Direct transfers, simulated card transfers, 6-digit QR/request payments and explicit payer approval.
-- VIP for 1,999 LPI game coins for 30 minutes or 19,999 LPI game coins for lifetime; active VIP has an animated crown, 3% game-coin transfer discount and simulated cashback rewards.
+- VIP for 1,999 LPI game coins for 30 minutes or 19,999 LPI game coins for lifetime; active VIP has an animated crown shown beside the player name and recipient check, 3% game-coin transfer discount and simulated cashback rewards.
 - Global daily spin with server-checked once-per-UTC-day rewards: configurable LPI coin prizes, one-use simulated cashback coupons, or temporary VIP.
 - Admin media cards: send one image or MP4 video up to 4 MB to a selected player.
 - Animated payment/bill/gift receipts and a GitHub Releases update checker for Windows and Android.
@@ -51,7 +51,7 @@ Output is created inside release/.
     # Windows: gradlew.bat assembleDebug
     # macOS/Linux: ./gradlew assembleDebug
 
-The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. v0.2.1 includes the corrected LPI launcher icon and minimum-client-version checks for payment and write actions. The in-app updater checks the latest GitHub Release and opens the correct asset for the device; final installation and restart remain user-confirmed.
+The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. v0.2.2 includes the corrected LPI launcher icon and minimum-client-version checks for payment and write actions. The in-app updater checks the latest GitHub Release and opens the correct asset for the device; final installation and restart remain user-confirmed.
 
 ## GitHub Actions artifacts
 
