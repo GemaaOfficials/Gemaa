@@ -186,6 +186,22 @@ async function login(body: any) {
   if (check !== data.password_hash) throw new Error("Name or password is incorrect.");
   return { token: await makeSession(data.id), user: publicUser(data) };
 }
+const MINIMUM_CLIENT_VERSION = "0.2.1";
+const UPDATE_REQUIRED_ACTIONS = new Set([
+  "transfer", "request_create", "request_approve", "vip_buy", "spin_play",
+  "gift_create", "gift_redeem", "bill_pay", "bill_postpone", "sip_create",
+  "sip_cancel", "gold_trade", "admin_grant", "admin_bill_create",
+  "admin_announce", "admin_spin_update", "admin_media_upload",
+  "admin_api_create", "admin_api_revoke"
+]);
+function isClientVersionAtLeast(version: string, minimum: string): boolean {
+  const parse = (value: string) => String(value || "0").replace(/^v/i, "").split(/[.+-]/).slice(0, 3)
+    .map((part) => { const n = Number.parseInt(part, 10); return Number.isFinite(n) ? n : 0; });
+  const a = parse(version), b = parse(minimum);
+  for (let i = 0; i < 3; i++) { if (a[i] > b[i]) return true; if (a[i] < b[i]) return false; }
+  return true;
+}
+
 async function apiRequest(body: any): Promise<Response> {
   const key = String(body.apiKey || body.key || "");
   if (!key.startsWith("lpi_test_")) return reply(401, { error: "Invalid sandbox API key." });
@@ -232,6 +248,12 @@ Deno.serve(async (req: Request) => {
       return reply(200, { adminToken: await makeSession(user.id, true) });
     }
     const user = await requireUser(String(body.token || ""));
+    if (UPDATE_REQUIRED_ACTIONS.has(action) && !isClientVersionAtLeast(String(body.appVersion || "0.0.0"), MINIMUM_CLIENT_VERSION)) {
+      return reply(426, {
+        error: "Update required: install LPI City Money v" + MINIMUM_CLIENT_VERSION +
+          " to use payments and the latest features. Open https://github.com/GemaaOfficials/Gemaa/releases/latest and install the Windows EXE or Android APK. Your city account and LPI game coins are unchanged."
+      });
+    }
     if (action === "dashboard") return reply(200, await dashboard(user));
     if (action === "logout") {
       await db.from("lpi_sessions").delete().eq("token_hash", await shaHex(String(body.token || "")));
