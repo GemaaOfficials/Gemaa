@@ -28,6 +28,9 @@ jobs:
       - name: Install app build dependencies
         working-directory: apps/lpi-city-money
         run: npm install
+      - name: Validate app JavaScript
+        working-directory: apps/lpi-city-money
+        run: npm run test:syntax
       - name: Build Windows installer and portable ZIP
         working-directory: apps/lpi-city-money
         run: npm run dist:win
@@ -62,6 +65,9 @@ jobs:
       - name: Install app build dependencies
         working-directory: apps/lpi-city-money
         run: npm install
+      - name: Validate app JavaScript
+        working-directory: apps/lpi-city-money
+        run: npm run test:syntax
       - name: Generate Android wrapper
         working-directory: apps/lpi-city-money
         run: npm run android:setup
