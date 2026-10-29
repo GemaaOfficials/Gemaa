@@ -1,6 +1,6 @@
 # LPI City Money
 
-A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.3.0 introduces an original light-purple wallet design, SVG iconography, animated payment review and slide-to-confirm flow, optional device-platform biometric prompt where supported, personal open-amount pay QR codes, saved issued gift cards, and an admin-controlled daily spin. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
+A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.3.1 adds a blue/green pixel-inspired redesign, an in-app updater with byte-based download progress on Windows, a compatible-build check, SVG iconography, animated payment review and slide-to-confirm flow, personal open-amount pay QR codes, saved issued gift cards, and an admin-controlled daily spin. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
 
 ## Features
 
@@ -55,7 +55,7 @@ Output is created inside release/.
     # Windows: gradlew.bat assembleDebug
     # macOS/Linux: ./gradlew assembleDebug
 
-The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. v0.2.2 includes the corrected LPI launcher icon and minimum-client-version checks for payment and write actions. The in-app updater checks the latest GitHub Release and opens the correct asset for the device; final installation and restart remain user-confirmed.
+The debug APK is at android/app/build/outputs/apk/debug/app-debug.apk. It can be installed for personal testing after allowing app installs from your chosen file manager. It is not a Play Store-signed release. Release builds publish the Windows EXE and Android APK to GitHub Releases so the app's built-in updater can find versioned assets. v0.2.2 includes the corrected LPI launcher icon and minimum-client-version checks for payment and write actions. The in-app updater checks for a compatible newer GitHub Release, shows “You're up to date” when no newer asset exists, and downloads the selected asset without navigating to a release page. Windows downloads show real byte progress inside the app; the final installer/package installation remains user-confirmed.
 
 ## GitHub Actions artifacts
 
@@ -97,7 +97,7 @@ Sandbox withdrawal:
       "amount": 25
     }
 
-The key must have the corresponding permission. These operations change **LPI game coins only** and never move real funds.
+The key must have the corresponding permission. These operations change **LPI game coins only** and never move real funds. Connected apps must not request real bank-card numbers, CVVs, or expiry dates; this endpoint is not a card processor. Keep keys on a trusted backend, never in a browser/mobile frontend, and issue only the scopes required.
 
 ## Important limitations
 

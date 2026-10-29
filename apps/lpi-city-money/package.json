@@ -1,6 +1,6 @@
 {
   "name": "lpi-city-money",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "LPI City Money - polished fictional play-currency game for friends",
   "private": true,
   "main": "main.cjs",
@@ -28,6 +28,7 @@
     "files": [
       "index.html",
       "main.cjs",
+      "preload.cjs",
       "package.json"
     ],
     "win": {
