@@ -10,6 +10,7 @@ A mobile-friendly, globally synced **fictional city-money game** for friends. Ve
 - VIP for 1,999 LPI game coins for 30 minutes or 19,999 LPI game coins for lifetime; active VIP has an animated crown shown beside the player name and recipient check, 3% game-coin transfer discount and simulated cashback rewards.
 - Global daily spin with server-checked once-per-UTC-day rewards: configurable LPI coin prizes, one-use simulated cashback coupons, or temporary VIP.
 - Admin media cards: send one image or MP4 video up to 4 MB to a selected player.
+- Recipient lookup displays an animated SVG crown beside active VIP names, so the payer can identify the VIP before confirming a simulated transfer.
 - Animated payment/bill/gift receipts and a GitHub Releases update checker for Windows and Android.
 - One-time gift codes with a 16-digit code, matching card-style restriction, and stored-value deduction at creation.
 - Admin controls: grant game coins, create bills, publish announcements, view players and create/revoke sandbox API keys.
