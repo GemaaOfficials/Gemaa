@@ -57,9 +57,12 @@ function amountValue(value: unknown): number {
   return n;
 }
 function publicUser(u: any) {
+  const vipActive = Boolean(u.is_vip) && (Boolean(u.vip_lifetime) || !u.vip_expires_at || new Date(u.vip_expires_at).getTime() > Date.now());
   return {
     id: u.id, name: u.display_name, nameKey: u.name_key, balance: Number(u.balance),
-    isVip: Boolean(u.is_vip), cardBrand: u.card_brand, createdAt: u.created_at
+    isVip: vipActive, vipLifetime: Boolean(u.vip_lifetime), vipExpiresAt: u.vip_expires_at || null,
+    nextPaymentCashbackPercent: Number(u.next_payment_cashback_percent || 0),
+    cardBrand: u.card_brand, createdAt: u.created_at
   };
 }
 async function makeSession(userId: string, isAdmin = false): Promise<string> {
@@ -83,7 +86,7 @@ async function findSession(token: string, admin = false): Promise<any> {
 async function requireUser(token: string): Promise<any> {
   const session = await findSession(token, false);
   const { data, error } = await db.from("lpi_users")
-    .select("id,display_name,name_key,balance,is_vip,card_brand,created_at")
+    .select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at")
     .eq("id", session.user_id).single();
   if (error || !data) throw new Error("Account could not be loaded. Please sign in again.");
   return data;
@@ -123,10 +126,11 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     db.from("lpi_announcements").select("id,message,kind,created_at").order("created_at", { ascending: false }).limit(12),
     db.from("lpi_payment_requests").select("id,amount,status,expires_at,created_at")
       .eq("receiver_user_id", user.id).eq("status", "pending").gt("expires_at", new Date().toISOString()).order("created_at", { ascending: false }).limit(6),
-    db.from("lpi_gold_holdings").select("units").eq("user_id", user.id).maybeSingle()
+    db.from("lpi_gold_holdings").select("units").eq("user_id", user.id).maybeSingle(),
+    db.from("lpi_media_cards").select("id,title,media_url,content_type,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12)
   ]);
   for (const result of results) if (result.error) throw new Error("Could not load all city data. Please refresh.");
-  const refreshed = await db.from("lpi_users").select("id,display_name,name_key,balance,is_vip,card_brand,created_at").eq("id", user.id).single();
+  const refreshed = await db.from("lpi_users").select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at").eq("id", user.id).single();
   if (refreshed.error) throw refreshed.error;
   return {
     user: publicUser(refreshed.data),
@@ -136,7 +140,8 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     sips: results[3].data || [],
     announcements: results[4].data || [],
     pendingRequests: results[5].data || [],
-    gold: { price: Number(market.price), updatedAt: market.updated_at, units: Number((results[6].data || {}).units || 0) }
+    gold: { price: Number(market.price), updatedAt: market.updated_at, units: Number((results[6].data || {}).units || 0) },
+    mediaCards: results[7].data || []
   };
 }
 async function createAccount(body: any) {
@@ -149,7 +154,7 @@ async function createAccount(body: any) {
   const { data: user, error } = await db.from("lpi_users").insert({
     display_name: n.display, name_key: n.key, password_salt: salt,
     password_hash: password_hash, card_brand: style, balance: 5000
-  }).select("id,display_name,name_key,balance,is_vip,card_brand,created_at").single();
+  }).select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at").single();
   if (error) {
     if (error.code === "23505") throw new Error("That name is already taken. Try another name.");
     throw error;
@@ -272,7 +277,13 @@ Deno.serve(async (req: Request) => {
       return reply(200, { success: true, result: result });
     }
     if (action === "vip_buy") {
-      const result = await callRpc("lpi_buy_vip", { p_user_id: user.id });
+      const duration = String(body.duration || "30m");
+      if (!["30m", "lifetime"].includes(duration)) throw new Error("Choose 30-minute or lifetime VIP.");
+      const result = await callRpc("lpi_buy_vip", { p_user_id: user.id, p_duration: duration });
+      return reply(200, { success: true, result: result });
+    }
+    if (action === "spin_play") {
+      const result = await callRpc("lpi_play_spin", { p_user_id: user.id });
       return reply(200, { success: true, result: result });
     }
     if (action === "gift_create") {
@@ -334,7 +345,7 @@ Deno.serve(async (req: Request) => {
     if (action === "admin_users") {
       await requireAdmin(String(body.adminToken || ""), user.id);
       const { data, error } = await db.from("lpi_users")
-        .select("id,display_name,name_key,balance,is_vip,card_brand,created_at")
+        .select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at")
         .order("created_at", { ascending: false }).limit(250);
       if (error) throw error;
       return reply(200, { users: (data || []).map(publicUser) });
@@ -369,6 +380,54 @@ Deno.serve(async (req: Request) => {
       const { error } = await db.from("lpi_announcements").insert({ message: message, kind: "admin" });
       if (error) throw error;
       return reply(200, { success: true });
+    }
+    if (action === "admin_spin_get") {
+      await requireAdmin(String(body.adminToken || ""), user.id);
+      const { data, error } = await db.from("lpi_spin_config").select("reward_config,updated_at").eq("id", 1).single();
+      if (error) throw error;
+      return reply(200, { rewardConfig: data.reward_config, updatedAt: data.updated_at });
+    }
+    if (action === "admin_spin_update") {
+      await requireAdmin(String(body.adminToken || ""), user.id);
+      const rawCoins = String(body.coins || "10,20,30").split(",").map((x) => Number(x.trim())).filter((x) => Number.isInteger(x) && x >= 1 && x <= 100000);
+      const coins = Array.from(new Set(rawCoins)).slice(0, 6);
+      if (coins.length < 1) throw new Error("Enter at least one valid LPI coin reward.");
+      const cashbackPct = Number(body.cashbackPct || 0);
+      const vipMinutes = Number(body.vipMinutes || 0);
+      if (!Number.isInteger(cashbackPct) || cashbackPct < 0 || cashbackPct > 50) throw new Error("Cashback must be 0–50 percent.");
+      if (!Number.isInteger(vipMinutes) || vipMinutes < 0 || vipMinutes > 1440) throw new Error("VIP minutes must be 0–1,440.");
+      const rewards: Array<{type:string;amount:number;label:string;weight:number}> = coins.map((amount) => ({ type: "coins", amount, label: amount + " LPI bonus coins", weight: 3 }));
+      if (cashbackPct > 0) rewards.push({ type: "cashback", amount: cashbackPct, label: cashbackPct + "% cashback coupon", weight: 1 });
+      if (vipMinutes > 0) rewards.push({ type: "vip", amount: vipMinutes, label: vipMinutes + "-minute VIP pass", weight: 1 });
+      const { error } = await db.from("lpi_spin_config").upsert({ id: 1, reward_config: rewards, updated_at: new Date().toISOString(), updated_by: user.id }, { onConflict: "id" });
+      if (error) throw error;
+      return reply(200, { success: true, rewardConfig: rewards });
+    }
+    if (action === "admin_media_upload") {
+      await requireAdmin(String(body.adminToken || ""), user.id);
+      const targetId = String(body.userId || "");
+      const title = String(body.title || "A city card").trim().slice(0, 80) || "A city card";
+      const contentType = String(body.contentType || "");
+      if (!["image/jpeg", "image/png", "image/webp", "video/mp4"].includes(contentType)) throw new Error("Choose a JPG, PNG, WebP image or MP4 video.");
+      const mediaBase64 = String(body.mediaBase64 || "");
+      if (!mediaBase64 || mediaBase64.length > 5600000) throw new Error("Media is empty or larger than 4 MB. Choose a smaller file.");
+      const { data: target, error: targetError } = await db.from("lpi_users").select("id,display_name").eq("id", targetId).maybeSingle();
+      if (targetError || !target) throw new Error("Select a valid city player.");
+      const binary = atob(mediaBase64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      if (bytes.byteLength > 4 * 1024 * 1024) throw new Error("Media must be 4 MB or smaller.");
+      const ext = contentType === "image/jpeg" ? "jpg" : contentType.split("/")[1];
+      const path = user.id + "/" + crypto.randomUUID() + "." + ext;
+      const { error: uploadError } = await db.storage.from("lpi-admin-media").upload(path, bytes, { contentType, upsert: false, cacheControl: "3600" });
+      if (uploadError) throw uploadError;
+      const mediaUrl = db.storage.from("lpi-admin-media").getPublicUrl(path).data.publicUrl;
+      const { data, error } = await db.from("lpi_media_cards").insert({
+        user_id: target.id, admin_user_id: user.id, title, media_url: mediaUrl, content_type: contentType
+      }).select("id,title,media_url,content_type,created_at").single();
+      if (error) throw error;
+      await db.from("lpi_announcements").insert({ message: "A new city media card was sent to " + target.display_name, kind: "admin" });
+      return reply(200, { success: true, card: data, userName: target.display_name });
     }
     if (action === "admin_api_create") {
       await requireAdmin(String(body.adminToken || ""), user.id);
