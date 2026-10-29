@@ -63,6 +63,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install icon generator
+        run: python -m pip install --disable-pip-version-check Pillow
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
