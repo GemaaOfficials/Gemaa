@@ -128,7 +128,9 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
       .eq("receiver_user_id", user.id).eq("status", "pending").gt("expires_at", new Date().toISOString()).order("created_at", { ascending: false }).limit(6),
     db.from("lpi_gold_holdings").select("units").eq("user_id", user.id).maybeSingle(),
     db.from("lpi_media_cards").select("id,title,media_url,content_type,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12),
-    db.from("lpi_spin_history").select("id").eq("user_id", user.id).eq("spin_date", new Date().toISOString().slice(0, 10)).maybeSingle()
+    db.from("lpi_spin_history").select("id").eq("user_id", user.id).eq("spin_date", new Date().toISOString().slice(0, 10)).maybeSingle(),
+    db.from("lpi_spin_config").select("enabled").eq("id", 1).maybeSingle(),
+    db.from("lpi_gift_cards").select("id,card_brand,amount,created_at,expires_at,redeemed_at").eq("issuer_user_id", user.id).order("created_at", { ascending: false }).limit(25)
   ]);
   for (const result of results) if (result.error) throw new Error("Could not load all city data. Please refresh.");
   const refreshed = await db.from("lpi_users").select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at").eq("id", user.id).single();
@@ -143,7 +145,9 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     pendingRequests: results[5].data || [],
     gold: { price: Number(market.price), updatedAt: market.updated_at, units: Number((results[6].data || {}).units || 0) },
     mediaCards: results[7].data || [],
-    spinUsedToday: Boolean(results[8].data)
+    spinUsedToday: Boolean(results[8].data),
+    spinEnabled: Boolean(results[9].data && results[9].data.enabled),
+    giftCards: results[10].data || []
   };
 }
 async function createAccount(body: any) {
@@ -311,17 +315,20 @@ Deno.serve(async (req: Request) => {
       return reply(200, { success: true, result: result });
     }
     if (action === "spin_play") {
+      const { data: spinConfig, error: spinConfigError } = await db.from("lpi_spin_config").select("enabled").eq("id", 1).single();
+      if (spinConfigError) throw spinConfigError;
+      if (!spinConfig.enabled) throw new Error("The city admin has paused the daily spin. Check back later.");
       const result = await callRpc("lpi_play_spin", { p_user_id: user.id });
       return reply(200, { success: true, result: result });
     }
     if (action === "gift_create") {
       const amount = amountValue(body.amount);
       const { data: owner } = await db.from("lpi_users").select("card_brand").eq("id", user.id).single();
+      const requestedBrand = body.giftBrand == null ? owner.card_brand : String(body.giftBrand).trim().toUpperCase();
+      if (!["LPI NEON", "LPI AURA", "LPI ROYAL"].includes(requestedBrand)) throw new Error("Choose a valid LPI gift-card style.");
       const code = randDigits(16);
-      const result = await callRpc("lpi_create_gift_card", {
-        p_issuer: user.id, p_amount: amount, p_code_hash: await shaHex(code), p_brand: owner.card_brand
-      });
-      return reply(200, { success: true, code: code, brand: owner.card_brand, result: result });
+      const result = await callRpc("lpi_create_gift_card", { p_issuer: user.id, p_amount: amount, p_code_hash: await shaHex(code), p_brand: requestedBrand });
+      return reply(200, { success: true, code: code, brand: requestedBrand, result: result });
     }
     if (action === "gift_redeem") {
       const code = String(body.code || "").replace(/\D/g, "");
@@ -411,12 +418,13 @@ Deno.serve(async (req: Request) => {
     }
     if (action === "admin_spin_get") {
       await requireAdmin(String(body.adminToken || ""), user.id);
-      const { data, error } = await db.from("lpi_spin_config").select("reward_config,updated_at").eq("id", 1).single();
+      const { data, error } = await db.from("lpi_spin_config").select("reward_config,updated_at,enabled").eq("id", 1).single();
       if (error) throw error;
-      return reply(200, { rewardConfig: data.reward_config, updatedAt: data.updated_at });
+      return reply(200, { rewardConfig: data.reward_config, updatedAt: data.updated_at, enabled: Boolean(data.enabled) });
     }
     if (action === "admin_spin_update") {
       await requireAdmin(String(body.adminToken || ""), user.id);
+      const enabled = body.enabled !== false;
       const rawCoins = String(body.coins || "10,20,30").split(",").map((x) => Number(x.trim())).filter((x) => Number.isInteger(x) && x >= 1 && x <= 100000);
       const coins = Array.from(new Set(rawCoins)).slice(0, 6);
       if (coins.length < 1) throw new Error("Enter at least one valid LPI coin reward.");
@@ -427,9 +435,9 @@ Deno.serve(async (req: Request) => {
       const rewards: Array<{type:string;amount:number;label:string;weight:number}> = coins.map((amount) => ({ type: "coins", amount, label: amount + " LPI bonus coins", weight: 3 }));
       if (cashbackPct > 0) rewards.push({ type: "cashback", amount: cashbackPct, label: cashbackPct + "% cashback coupon", weight: 1 });
       if (vipMinutes > 0) rewards.push({ type: "vip", amount: vipMinutes, label: vipMinutes + "-minute VIP pass", weight: 1 });
-      const { error } = await db.from("lpi_spin_config").upsert({ id: 1, reward_config: rewards, updated_at: new Date().toISOString(), updated_by: user.id }, { onConflict: "id" });
+      const { error } = await db.from("lpi_spin_config").upsert({ id: 1, reward_config: rewards, enabled: enabled, updated_at: new Date().toISOString(), updated_by: user.id }, { onConflict: "id" });
       if (error) throw error;
-      return reply(200, { success: true, rewardConfig: rewards });
+      return reply(200, { success: true, rewardConfig: rewards, enabled: enabled });
     }
     if (action === "admin_media_upload") {
       await requireAdmin(String(body.adminToken || ""), user.id);
