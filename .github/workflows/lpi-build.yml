@@ -6,6 +6,8 @@ on:
     paths:
       - "apps/lpi-city-money/**"
       - ".github/workflows/lpi-build.yml"
+    tags:
+      - "lpi-v*"
   pull_request:
     paths:
       - "apps/lpi-city-money/**"
@@ -74,3 +76,30 @@ jobs:
           name: LPI-Android-APK
           path: apps/lpi-city-money/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+  publish-release:
+    name: Publish versioned LPI release
+    if: startsWith(github.ref, 'refs/tags/lpi-v')
+    needs: [windows-installer, android-apk]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LPI-Windows-EXE
+          path: release/windows
+      - name: Download Android APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LPI-Android-APK
+          path: release/android
+      - name: Publish release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: LPI City Money ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release/windows/*.exe
+            release/android/*.apk
