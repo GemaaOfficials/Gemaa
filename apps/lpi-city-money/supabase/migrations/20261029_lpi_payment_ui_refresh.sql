@@ -9,6 +9,7 @@ create table if not exists public.lpi_spin_config (
 );
 alter table public.lpi_spin_config add column if not exists enabled boolean not null default false;
 alter table public.lpi_spin_config alter column enabled set default false;
+alter table public.lpi_gift_cards add column if not exists code_display text;
 insert into public.lpi_spin_config (id, enabled)
 values (1, false)
 on conflict (id) do nothing;
