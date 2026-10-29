@@ -298,7 +298,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue)!important;box-s
      </div>
     </div>
     <button id="adminExit" class="btn danger small" type="button">Lock admin console</button></div>
-   <p class="fineprint" style="margin-top:12px">API keys operate only on fictional LPI balances. Never put an API key in a public website or mobile frontend. A backend service should keep it secret.</p>
+   <p class="fineprint" style="margin-top:12px">Sandbox only: connected apps can read or change LPI game coins only, never real rupees or bank balances. Do not ask users for real card numbers, CVVs, or expiry dates; this is not a payment processor. Keep API keys on a trusted backend and grant only the scopes the app needs.</p>
   </div>
  </div>
 </div>
@@ -489,7 +489,7 @@ async function startUpdateFlow(){
   setUpdateCurrentState("No update for this device","No compatible installer is attached to the latest published build. Your installed version is unchanged.","Check again");return;
  }
  button.disabled=true;button.textContent="Downloading…";
- $("updateProgress").classList.remove("hidden");$("updateMessage").textContent="Downloading securely inside LPI. Keep the app open until it completes.";
+ $("updateProgress").classList.remove("hidden");$("updateProgressText").classList.remove("hidden");$("updateMessage").textContent="Downloading securely inside LPI. Keep the app open until it completes.";
  setUpdateProgress(0,"Starting download…");
  try{
   let result;
@@ -573,7 +573,7 @@ function renderApiKeys(){$("apiKeysList").innerHTML=state.apiKeys.length?state.a
 $("refreshAdmin").addEventListener("click",loadAdmin);$("adminGrantForm").addEventListener("submit",async function(e){e.preventDefault();try{await adminApi("admin_grant",{userId:$("grantUser").value,amount:Number($("grantAmount").value),note:$("grantNote").value});toast("Coins granted","success");$("grantAmount").value="";await loadAdmin();await refreshDashboard()}catch(err){toast(err.message,"error")}});
 $("adminBillForm").addEventListener("submit",async function(e){e.preventDefault();try{const r=await adminApi("admin_bill_create",{userId:$("billUser").value,amount:Number($("billAmount").value),memo:$("billMemo").value});toast("Bill issued to "+r.userName,"success");$("billAmount").value="";await loadAdmin()}catch(err){toast(err.message,"error")}});
 $("adminAnnounceForm").addEventListener("submit",async function(e){e.preventDefault();try{await adminApi("admin_announce",{message:$("adminMessage").value});$("adminMessage").value="";toast("Global announcement posted","success");await refreshDashboard()}catch(err){toast(err.message,"error")}});
-$("adminApiForm").addEventListener("submit",async function(e){e.preventDefault();try{const scopes=Array.from(document.querySelectorAll('#adminApiForm input[type="checkbox"]:checked')).map(function(x){return x.value});const r=await adminApi("admin_api_create",{label:$("apiLabel").value,scopes:scopes});$("apiKeyCreated").classList.remove("hidden");$("apiKeyCreated").innerHTML='<div class="announce"><div class="annmeta"><span class="tag">COPY ONCE</span></div><strong>Sandbox API key created</strong><div class="mono" style="overflow-wrap:anywhere;color:var(--mint);margin:8px 0">'+esc(r.key)+'</div><button class="btn small" data-action="copy" data-text="'+esc(r.key)+'">Copy key</button><p class="fineprint">This full key will not be shown again. Keep it on a backend only.</p></div>';toast("Sandbox API key created","success");await loadAdmin()}catch(err){toast(err.message,"error")}});
+$("adminApiForm").addEventListener("submit",async function(e){e.preventDefault();try{const scopes=Array.from(document.querySelectorAll('#adminApiForm input[type="checkbox"]:checked')).map(function(x){return x.value});const r=await adminApi("admin_api_create",{label:$("apiLabel").value,scopes:scopes});$("apiKeyCreated").classList.remove("hidden");$("apiKeyCreated").innerHTML='<div class="announce"><div class="annmeta"><span class="tag">COPY ONCE</span></div><strong>Sandbox API key created</strong><div class="mono" style="overflow-wrap:anywhere;color:var(--mint);margin:8px 0">'+esc(r.key)+'</div><button class="btn small" data-action="copy" data-text="'+esc(r.key)+'">Copy key</button><p class="fineprint">This key is shown once. Keep it on a trusted backend and grant only the required balance/deposit/withdraw scopes. It controls LPI game coins only; never collect real bank-card details.</p></div>';toast("Sandbox API key created","success");await loadAdmin()}catch(err){toast(err.message,"error")}});
 $("adminExit").addEventListener("click",function(){state.adminToken="";$("adminGate").classList.remove("hidden");$("adminDashboard").classList.add("hidden");closeModal("adminModal");toast("Admin console locked")});
 
 
