@@ -456,16 +456,20 @@ async function checkForUpdates(){
  }
 }
 async function showUpdateModal(){
+ openModal("updateModal");
+ $("updateTitle").textContent="Checking for updates…";
+ $("updateNotes").textContent="Checking the latest compatible release for this device.";
+ $("updateVersionTag").textContent="Installed · v"+APP_VERSION;
+ $("updateDownloadBtn").textContent="Checking…";
+ $("updateDownloadBtn").disabled=true;
  $("updateDownloadBtn").classList.remove("hidden");
  const available=await checkForUpdates();
- if(available)return openModal("updateModal");
+ if(available)return;
  if(state.updateCheckStatus==="current"){
   setUpdateCurrentState("You're up to date","You're running the latest LPI build available for this device. No update download is needed.","Check again");
-  $("updateDownloadBtn").textContent="Check again";
  }else{
   setUpdateCurrentState("Update check unavailable","Couldn't reach the update service right now. Your installed app is still available; try checking again when you're online.","Try again");
  }
- openModal("updateModal");
 }
 async function downloadAssetInRenderer(asset){
  const response=await fetch(asset.browser_download_url,{cache:"no-store"});
