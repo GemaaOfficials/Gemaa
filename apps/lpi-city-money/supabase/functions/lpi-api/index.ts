@@ -127,7 +127,8 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     db.from("lpi_payment_requests").select("id,amount,status,expires_at,created_at")
       .eq("receiver_user_id", user.id).eq("status", "pending").gt("expires_at", new Date().toISOString()).order("created_at", { ascending: false }).limit(6),
     db.from("lpi_gold_holdings").select("units").eq("user_id", user.id).maybeSingle(),
-    db.from("lpi_media_cards").select("id,title,media_url,content_type,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12)
+    db.from("lpi_media_cards").select("id,title,media_url,content_type,created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(12),
+    db.from("lpi_spin_history").select("id").eq("user_id", user.id).eq("spin_date", new Date().toISOString().slice(0, 10)).maybeSingle()
   ]);
   for (const result of results) if (result.error) throw new Error("Could not load all city data. Please refresh.");
   const refreshed = await db.from("lpi_users").select("id,display_name,name_key,balance,is_vip,vip_expires_at,vip_lifetime,next_payment_cashback_percent,card_brand,created_at").eq("id", user.id).single();
@@ -141,7 +142,8 @@ async function dashboard(user: any): Promise<Record<string, unknown>> {
     announcements: results[4].data || [],
     pendingRequests: results[5].data || [],
     gold: { price: Number(market.price), updatedAt: market.updated_at, units: Number((results[6].data || {}).units || 0) },
-    mediaCards: results[7].data || []
+    mediaCards: results[7].data || [],
+    spinUsedToday: Boolean(results[8].data)
   };
 }
 async function createAccount(body: any) {
