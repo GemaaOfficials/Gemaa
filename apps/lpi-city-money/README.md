@@ -1,6 +1,6 @@
 # LPI City Money
 
-A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.2.0 adds a daily global reward spin, temporary/lifetime VIP passes, animated crowns, admin media cards, payment receipts, and GitHub release update checks. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
+A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.2.1 adds a daily global reward spin, temporary/lifetime VIP passes, animated crowns, admin media cards, payment receipts, and GitHub release update checks. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
 
 ## Features
 
