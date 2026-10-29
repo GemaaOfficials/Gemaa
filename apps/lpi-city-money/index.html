@@ -392,8 +392,8 @@ function targetUpdateAsset(release){
  const assets=Array.isArray(release&&release.assets)?release.assets:[];
  const android=/Android/i.test(navigator.userAgent);
  return android
-  ?assets.find(function(a){return /\\.apk$/i.test(a.name)})
-  :assets.find(function(a){return /\\.exe$/i.test(a.name)})||assets.find(function(a){return /\\.zip$/i.test(a.name)});
+  ?assets.find(function(a){return /\.apk$/i.test(a.name)})
+  :assets.find(function(a){return /\.exe$/i.test(a.name)})||assets.find(function(a){return /\.zip$/i.test(a.name)});
 }
 function setUpdateProgress(percent,detail){
  const bar=$("updateProgressFill"),text=$("updateProgressText");
@@ -506,8 +506,7 @@ async function startUpdateFlow(){
   setUpdateProgress(100,"100% · Complete");
   $("updateMessage").textContent="Saved "+result.filename+". Install it to update LPI; Android may ask you to approve APK installation.";
   button.textContent="Download again";button.disabled=false;
-  $("updateRestartBtn").textContent="Show downloaded file";
-  $("updateRestartBtn").classList.remove("hidden");
+  if(window.lpiUpdater&&typeof window.lpiUpdater.showDownloadedFile==="function"){ $("updateRestartBtn").textContent="Show downloaded file";$("updateRestartBtn").classList.remove("hidden"); } else { $("updateRestartBtn").classList.add("hidden"); }
   state.updateCheckStatus="downloaded";
  }catch(e){
   $("updateMessage").textContent="Download failed: "+String(e&&e.message||e)+" Try again when connected.";
@@ -539,7 +538,7 @@ $("adminOpen").addEventListener("click",promptAdmin);document.addEventListener("
 $("receiptCopy").addEventListener("click",async function(){try{await navigator.clipboard.writeText(state.lastReceipt);toast("Receipt copied","success")}catch(e){toast(state.lastReceipt)}});
 $("updateBannerBtn").addEventListener("click",showUpdateModal);
 $("updateDownloadBtn").addEventListener("click",startUpdateFlow);
-$("updateRestartBtn").addEventListener("click",function(){location.reload()});
+$("updateRestartBtn").addEventListener("click",function(){if(window.lpiUpdater&&typeof window.lpiUpdater.showDownloadedFile==="function")window.lpiUpdater.showDownloadedFile();else toast("The update was handed to your device download service.")});
 $("spinBtn").addEventListener("click",async function(){
  const b=$("spinBtn");if(b.disabled||!state.spinEnabled)return;b.disabled=true;const dial=$("spinDial");dial.classList.remove("spinning");void dial.offsetWidth;dial.classList.add("spinning");$("spinStatus").textContent="Spinning the global reward wheel…";
  try{const r=await api("spin_play",{});await new Promise(function(resolve){setTimeout(resolve,2500)});dial.classList.remove("spinning");await refreshDashboard();const prize=r.result||{};showReceipt("Global Spin reward",prize.label||"Your city prize was granted.",[{label:"Prize",value:prize.label||"Game reward"},{label:"Reward type",value:String(prize.type||"reward").toUpperCase()},{label:"Reward amount",value:prize.type==="cashback"?String(prize.amount)+"% coupon":prize.type==="vip"?String(prize.amount)+" minutes":"+"+money(prize.amount)+" LPI"}],"LPI-SPIN-"+String(prize.spinDate||Date.now().toString(36)).toUpperCase());$("spinStatus").textContent="Reward claimed. Your next spin is available tomorrow."}
