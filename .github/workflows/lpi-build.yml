@@ -3,6 +3,8 @@ name: Build LPI City Money
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "**"
     paths:
       - "apps/lpi-city-money/**"
       - ".github/workflows/lpi-build.yml"
