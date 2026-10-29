@@ -103,7 +103,7 @@ jobs:
 
   publish-release:
     name: Publish versioned LPI release
-    if: startsWith(github.ref, 'refs/tags/lpi-v') || (github.event_name == 'push' && github.ref == 'refs/heads/feat/lpi-city-money' && github.event.head_commit.message == 'Publish LPI City Money 0.2.2 release')
+    if: startsWith(github.ref, 'refs/tags/lpi-v') || (github.event_name == 'push' && github.ref == 'refs/heads/feat/lpi-city-money' && startsWith(github.event.head_commit.message, 'Publish LPI City Money '))
     needs: [windows-installer, android-apk]
     runs-on: ubuntu-latest
     permissions:
