@@ -124,8 +124,12 @@ begin
   v_lifetime := p_duration = 'lifetime';
   select * into v_user from public.lpi_users where id=p_user_id for update;
   if not found then raise exception 'Account not found.'; end if;
-  if v_user.is_vip and (v_user.vip_lifetime or v_user.vip_expires_at is null or v_user.vip_expires_at > now()) then
-    raise exception 'This account already has active VIP.';
+  if v_user.is_vip and (
+      v_user.vip_lifetime
+      or (v_user.vip_expires_at is null and p_duration <> 'lifetime')
+      or (v_user.vip_expires_at > now() and p_duration = '30m')
+    ) then
+    raise exception 'This account already has active VIP, or the requested plan does not upgrade it.';
   end if;
   if v_user.balance < v_cost then
     raise exception 'Not enough LPI game coins for this VIP pass.';
