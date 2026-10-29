@@ -103,7 +103,7 @@ jobs:
 
   publish-release:
     name: Publish versioned LPI release
-    if: startsWith(github.ref, 'refs/tags/lpi-v') || (github.event_name == 'push' && github.ref == 'refs/heads/feat/lpi-city-money' && github.event.head_commit.message == 'Publish LPI City Money 0.2.1 release')
+    if: startsWith(github.ref, 'refs/tags/lpi-v') || (github.event_name == 'push' && github.ref == 'refs/heads/feat/lpi-city-money' && github.event.head_commit.message == 'Publish LPI City Money 0.2.2 release')
     needs: [windows-installer, android-apk]
     runs-on: ubuntu-latest
     permissions:
@@ -122,8 +122,8 @@ jobs:
       - name: Publish release assets
         uses: softprops/action-gh-release@v2
         with:
-          name: LPI City Money ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'v0.2.1' }}
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'lpi-v0.2.1' }}
+          name: LPI City Money ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'v0.2.2' }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'lpi-v0.2.2' }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
           files: |
