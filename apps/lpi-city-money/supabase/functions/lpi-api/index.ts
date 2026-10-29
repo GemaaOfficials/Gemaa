@@ -263,10 +263,14 @@ Deno.serve(async (req: Request) => {
     if (action === "directory_search") {
       const q = String(body.query || "").trim().toLowerCase().replace(/[%_]/g, "").slice(0, 24);
       if (q.length < 1) return reply(200, { users: [] });
-      const { data, error } = await db.from("lpi_users").select("id,display_name,name_key,card_brand,is_vip")
+      const { data, error } = await db.from("lpi_users")
+        .select("id,display_name,name_key,card_brand,is_vip,vip_expires_at,vip_lifetime")
         .neq("id", user.id).ilike("name_key", "%" + q + "%").limit(10);
       if (error) throw error;
-      return reply(200, { users: (data || []).map((x: any) => ({ id: x.id, name: x.display_name, nameKey: x.name_key, cardBrand: x.card_brand, isVip: x.is_vip })) });
+      return reply(200, { users: (data || []).map((x: any) => ({
+        id: x.id, name: x.display_name, nameKey: x.name_key, cardBrand: x.card_brand,
+        isVip: Boolean(x.is_vip) && (Boolean(x.vip_lifetime) || !x.vip_expires_at || new Date(x.vip_expires_at).getTime() > Date.now())
+      })) });
     }
     if (action === "transfer") {
       const n = cleanName(body.toName);
