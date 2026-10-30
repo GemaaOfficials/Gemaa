@@ -1,0 +1,131 @@
+name: Build LPI City Money
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+    paths:
+      - "apps/lpi-city-money/**"
+      - ".github/workflows/lpi-build.yml"
+    tags:
+      - "lpi-v*"
+  pull_request:
+    paths:
+      - "apps/lpi-city-money/**"
+      - ".github/workflows/lpi-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  windows-installer:
+    name: Windows installer and portable ZIP
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install icon generator
+        run: python -m pip install --disable-pip-version-check Pillow
+      - name: Install app build dependencies
+        working-directory: apps/lpi-city-money
+        run: npm install
+      - name: Generate professional app icon
+        working-directory: apps/lpi-city-money
+        run: python scripts/generate-icons.py
+      - name: Validate app JavaScript
+        working-directory: apps/lpi-city-money
+        run: npm run test:syntax
+      - name: Build Windows installer and portable ZIP
+        working-directory: apps/lpi-city-money
+        run: npm run dist:win
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: LPI-Windows-EXE
+          path: apps/lpi-city-money/release/*.exe
+          if-no-files-found: error
+      - name: Upload portable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: LPI-Windows-Portable
+          path: apps/lpi-city-money/release/*.zip
+          if-no-files-found: error
+
+  android-apk:
+    name: Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install icon generator
+        run: python -m pip install --disable-pip-version-check Pillow
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v4
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Install app build dependencies
+        working-directory: apps/lpi-city-money
+        run: npm install
+      - name: Validate app JavaScript
+        working-directory: apps/lpi-city-money
+        run: npm run test:syntax
+      - name: Generate Android wrapper
+        working-directory: apps/lpi-city-money
+        run: npm run android:setup
+      - name: Apply app launcher icon
+        working-directory: apps/lpi-city-money
+        run: python scripts/generate-icons.py --android
+      - name: Build debug APK
+        working-directory: apps/lpi-city-money/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LPI-Android-APK
+          path: apps/lpi-city-money/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish versioned LPI release
+    if: startsWith(github.ref, 'refs/tags/lpi-v') || (github.event_name == 'push' && github.ref == 'refs/heads/feat/lpi-city-money' && startsWith(github.event.head_commit.message, 'Publish LPI City Money '))
+    needs: [windows-installer, android-apk]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LPI-Windows-EXE
+          path: release/windows
+      - name: Download Android APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LPI-Android-APK
+          path: release/android
+      - name: Publish release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: LPI City Money ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'v0.4.0' }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/lpi-v') && github.ref_name || 'lpi-v0.4.0' }}
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          files: |
+            release/windows/*.exe
+            release/android/*.apk

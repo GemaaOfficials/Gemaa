@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>LPI City Money</title>
+<style>
+:root{--bg:#07111f;--panel:#0e1b2c;--panel2:#13243a;--line:#203751;--text:#eaf3ff;--muted:#94a8c2;--mint:#57e6c1;--blue:#65a8ff;--gold:#f5c96a;--red:#ff7b87;--shadow:0 18px 50px #0003}
+*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;background:radial-gradient(1000px 550px at 75% -15%,#193b55 0%,transparent 66%),var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.hidden{display:none!important}.muted{color:var(--muted)}.tiny{font-size:11px}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.04em}.app{display:none;min-height:100vh}.app.ready{display:block}.topbar{position:sticky;top:0;z-index:20;background:#07111fe8;backdrop-filter:blur(18px);border-bottom:1px solid #1a2b40;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;gap:11px;align-items:center;font-weight:800;font-size:18px;letter-spacing:-.5px}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#61efca,#4a91ff);display:grid;place-items:center;color:#061321;font-weight:1000;box-shadow:0 6px 22px #57e6c135}.brand small{display:block;font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1.2px;text-transform:uppercase}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pill{border:1px solid var(--line);background:#13243a;padding:7px 10px;border-radius:100px;font-size:11px;font-weight:800;color:#b5c7de}.vip-pill{color:#1a170b;background:linear-gradient(120deg,#ffe99c,#d9a63c);border:0}.layout{max-width:1440px;margin:auto;padding:22px;display:grid;grid-template-columns:205px minmax(0,1fr);gap:22px}.sidebar{position:sticky;top:80px;align-self:start;display:flex;flex-direction:column;gap:7px}.navbtn{display:flex;align-items:center;gap:11px;border:1px solid transparent;background:transparent;color:var(--muted);padding:12px 14px;border-radius:13px;text-align:left;font-weight:700;transition:.2s}.navbtn .ico{width:19px;text-align:center;font-size:17px}.navbtn:hover,.navbtn.active{background:#10263a;border-color:#1c4252;color:var(--text)}.navbtn.active{box-shadow:inset 3px 0 var(--mint)}.side-note{margin-top:22px;padding:14px;border-radius:14px;border:1px solid var(--line);background:#0c1a2a;color:var(--muted);font-size:11px}.side-note strong{color:var(--mint);display:block;margin-bottom:6px}.content{min-width:0}.page{display:none;animation:fade .28s ease}.page.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:21px}.pagehead h1{font-size:27px;line-height:1.15;margin:0 0 7px;letter-spacing:-.8px}.pagehead p{color:var(--muted);margin:0}.grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{background:linear-gradient(145deg,#112138,#0d1929);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:var(--shadow);min-width:0}.panel h2,.panel h3{margin:0 0 12px;letter-spacing:-.35px}.panel h2{font-size:16px}.panel h3{font-size:14px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panelhead h2{margin:0}.tag{display:inline-flex;align-items:center;gap:5px;border-radius:100px;padding:4px 8px;background:#173449;border:1px solid #245268;color:var(--mint);font-size:10px;font-weight:800;letter-spacing:.35px;text-transform:uppercase}.tag.gold{background:#2f281a;border-color:#62502b;color:var(--gold)}.tag.red{background:#321b29;border-color:#633044;color:#ff9aaa}.balancehero{padding:24px;background:radial-gradient(500px 250px at 90% 0%,#1f526a 0%,transparent 70%),linear-gradient(125deg,#10273a,#102037);border:1px solid #245268;min-height:205px;position:relative;overflow:hidden}.balancehero:after{content:"";width:190px;height:190px;border-radius:50%;border:1px solid #5ae9c11c;position:absolute;right:-58px;bottom:-70px;box-shadow:0 0 0 25px #5ae9c109,0 0 0 52px #5ae9c107}.eyebrow{color:#8cb6c8;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800}.bigbalance{font-size:42px;font-weight:850;letter-spacing:-1.7px;margin:5px 0 2px}.coin{color:var(--mint)}.subbalance{color:#a8c0d4;font-size:12px}.quickrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;position:relative;z-index:1}.btn{border:1px solid #2c4965;background:#19324a;color:var(--text);padding:10px 14px;border-radius:11px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:transform .15s,background .15s;min-height:40px}.btn:hover{transform:translateY(-1px);background:#21425e}.btn.primary{background:linear-gradient(120deg,#58e2bf,#63baf7);color:#051723;border:0}.btn.primary:hover{background:linear-gradient(120deg,#7bf1d5,#81c6ff)}.btn.gold{background:linear-gradient(120deg,#f6d981,#d5a43b);color:#271d07;border:0}.btn.danger{background:#321c2a;border-color:#683447;color:#ff9aaa}.btn.small{padding:6px 10px;min-height:31px;font-size:11px;border-radius:9px}.btn.block{width:100%}.btn.ghost{background:transparent;border-color:var(--line);color:var(--muted)}.virtual-card{position:relative;overflow:hidden;min-height:214px;padding:20px;border-radius:20px;background:linear-gradient(130deg,#173d5b,#126f79 65%,#46d8b3);box-shadow:0 18px 45px #0003;color:white}.virtual-card.royal{background:linear-gradient(130deg,#322467,#7b4ce2 70%,#b292fa)}.virtual-card.aura{background:linear-gradient(130deg,#3a2147,#c6538c 70%,#f2ae7c)}.virtual-card:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;border:1px solid #ffffff27;right:-55px;top:-65px;box-shadow:0 0 0 25px #ffffff0b,0 0 0 52px #ffffff08}.cardtop,.cardbottom{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:1}.cardname{font-size:16px;font-weight:900;letter-spacing:1.2px}.cardlogo{font-size:26px;opacity:.9}.cardnote{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:#ffffffb8;font-weight:800;margin-top:2px}.cardnumber{font-size:18px;letter-spacing:2px;margin:27px 0 18px;position:relative;z-index:1;white-space:nowrap}.cardbottom{justify-content:flex-start;gap:24px}.cardbottom label{display:block;text-transform:uppercase;font-size:8px;letter-spacing:1.1px;color:#ffffffb4}.cardbottom strong{font-size:12px;letter-spacing:1px}.cardbottom .owner{margin-left:auto;text-align:right;max-width:48%;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}.cardwatermark{position:absolute;bottom:-22px;right:15px;font-size:65px;font-weight:1000;color:#ffffff0a;letter-spacing:-5px}.sectiongap{margin-top:17px}.stat{padding:15px;border:1px solid var(--line);background:#0e1c2d;border-radius:15px}.stat label{font-size:11px;color:var(--muted);display:block}.stat strong{font-size:23px;display:block;margin-top:5px;letter-spacing:-.6px}.stat .delta{font-size:11px;color:var(--mint)}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{color:#b5c7dd;font-size:11px;font-weight:800;letter-spacing:.35px}.field input,.field select{width:100%;background:#081522;border:1px solid #28415c;color:var(--text);border-radius:10px;padding:11px 12px;outline:none;min-height:42px}.field input:focus,.field select:focus{border-color:#57e6c1;box-shadow:0 0 0 3px #57e6c119}.field input::placeholder{color:#526a85}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fineprint{font-size:10px;color:var(--muted);line-height:1.6}.divider{height:1px;background:var(--line);margin:15px 0}.rowbetween{display:flex;justify-content:space-between;align-items:center;gap:12px}.list{display:flex;flex-direction:column;gap:9px}.listitem{display:flex;align-items:center;gap:11px;padding:11px;background:#0b1928;border:1px solid #192e44;border-radius:12px;min-width:0}.listitem .itemicon{width:36px;height:36px;flex-shrink:0;border-radius:12px;background:#173449;color:var(--mint);display:grid;place-items:center;font-size:17px}.listitem .itemtext{flex:1;min-width:0}.listitem .itemtext strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}.listitem .itemtext small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.listitem .itemamount{text-align:right;font-weight:850;font-size:12px;white-space:nowrap}.listitem .itemamount small{display:block;font-size:9px;color:var(--muted);font-weight:500}.empty{border:1px dashed #2a415a;border-radius:14px;padding:20px;text-align:center;color:var(--muted);font-size:12px}.announce{padding:12px;border-radius:12px;background:#0b1928;border:1px solid #1c3149;margin-bottom:8px}.announce:last-child{margin-bottom:0}.announce .annmeta{display:flex;align-items:center;gap:8px;margin-bottom:4px}.announce p{margin:0;font-size:12px}.annmeta time{color:var(--muted);font-size:10px}.qrbox{background:white;border-radius:13px;padding:12px;width:max-content;margin:12px auto;min-width:160px;min-height:160px;display:grid;place-items:center}.codebig{font-size:27px;letter-spacing:5px;font-weight:900;color:var(--mint);text-align:center}.goldprice{font-size:34px;font-weight:850;letter-spacing:-1px}.chartline{width:100%;height:74px;margin:8px 0 4px}.sipslab{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.modal{position:fixed;inset:0;background:#020812d9;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px)}.modal.open{display:flex}.modalbox{width:min(680px,100%);max-height:90vh;overflow:auto;background:#0d1b2d;border:1px solid #29425d;border-radius:21px;padding:22px;box-shadow:0 30px 100px #0009}.modalbox.wide{width:min(1000px,100%)}.modalhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}.modalhead h2{margin:0;font-size:21px}.close{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#14263a;color:var(--text);font-size:18px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}.table{border-collapse:collapse;width:100%;font-size:11px;min-width:560px}.table th,.table td{padding:10px 12px;text-align:left;border-bottom:1px solid #1c3046;white-space:nowrap}.table th{color:#91a9c5;background:#0b1828;font-size:10px;text-transform:uppercase;letter-spacing:.6px}.table tr:last-child td{border-bottom:0}.authscreen{min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch}.authart{background:radial-gradient(500px 500px at 30% 30%,#1b695f,transparent 68%),radial-gradient(500px 400px at 100% 100%,#173d77,transparent 70%),#091727;padding:55px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line)}.authart h1{font-size:clamp(37px,5vw,65px);letter-spacing:-2.7px;line-height:1.02;margin:38px 0 18px;max-width:600px}.authart h1 span{color:var(--mint)}.authart p{color:#a6bad1;font-size:15px;max-width:460px}.hero-orb{width:min(430px,100%);aspect-ratio:1;max-height:420px;border-radius:50%;border:1px solid #57e6c127;align-self:center;margin-top:22px;display:grid;place-items:center;background:radial-gradient(circle,#112a3b 0%,#0b1828 58%,transparent 60%);box-shadow:0 0 0 25px #57e6c10a,0 0 0 52px #57e6c105;position:relative}.orbcore{width:58%;aspect-ratio:1;border-radius:28%;background:linear-gradient(130deg,#57e6c1,#548fff);display:grid;place-items:center;color:#051321;font-size:clamp(35px,5vw,65px);font-weight:1000;transform:rotate(-9deg);box-shadow:0 20px 80px #57e6c137}.authformarea{display:grid;place-items:center;padding:30px}.authform{width:min(390px,100%)}.authform h2{font-size:27px;margin:0 0 7px;letter-spacing:-.8px}.authform p{color:var(--muted);margin:0 0 22px}.authswitch{display:flex;padding:4px;border-radius:12px;background:#081522;border:1px solid var(--line);margin-bottom:19px}.authswitch button{flex:1;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:9px;font-weight:800}.authswitch button.active{background:#1b354d;color:var(--text)}.authbrand{display:flex;align-items:center;gap:10px;margin-bottom:25px}.authbrand .logo{width:42px;height:42px}.footnote{border-top:1px solid var(--line);padding-top:14px;margin-top:15px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:#162e42;border:1px solid #31556a;color:var(--text);padding:11px 15px;border-radius:12px;box-shadow:var(--shadow);z-index:100;opacity:0;pointer-events:none;transition:.22s;max-width:min(520px,calc(100% - 30px));font-weight:700;font-size:12px}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{border-color:#874052;background:#381d2a}.toast.success{border-color:#286c62;background:#12332f}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #ffffff55;border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.mobilemenu{display:none}.footbrand{font-size:10px;color:#617995;margin-top:20px}.selection-row{display:flex;gap:10px;flex-wrap:wrap}.checkpill{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;background:#0b1928;border:1px solid var(--line);border-radius:10px;font-size:11px;color:#b4c6dd}.checkpill input{accent-color:var(--mint)}.dangertext{color:#ff9aaa}.successText{color:var(--mint)}
+@media(max-width:980px){.layout{grid-template-columns:1fr;padding:16px}.sidebar{position:static;flex-direction:row;overflow:auto;padding:0 0 6px}.navbtn{white-space:nowrap;padding:9px 12px}.navbtn .ico{width:auto}.side-note{display:none}.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.authart{padding:35px}.authart h1{font-size:48px}.hero-orb{max-height:300px}}
+@media(max-width:650px){.topbar{padding:10px 13px}.topbar .pill.account-pill{display:none}.layout{padding:12px}.grid.two,.grid.three{grid-template-columns:1fr}.pagehead{align-items:flex-start}.pagehead h1{font-size:23px}.bigbalance{font-size:35px}.panel{padding:15px;border-radius:17px}.balancehero{padding:19px}.virtual-card{min-height:194px;padding:17px}.cardnumber{font-size:16px;letter-spacing:1.8px}.top-actions .btn{padding:8px 10px;min-height:35px;font-size:11px}.brand{font-size:16px}.brand small{letter-spacing:.6px}.authscreen{grid-template-columns:1fr}.authart{display:none}.authformarea{min-height:100vh;padding:22px}.formrow{grid-template-columns:1fr}.modalbox{padding:16px}.modalbox.wide{padding:12px}.codebig{font-size:23px}.quickrow .btn{flex:1}.sidebar{gap:4px}.navbtn{font-size:11px;padding:9px;border-radius:10px}.navbtn .ico{font-size:14px}.footbrand{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* LPI professional polish */
+.recipient-vip-hint{min-height:18px;margin:-4px 0 10px;font-size:11px;color:#a9c5d8;display:flex;align-items:center;gap:6px}.recipient-vip-hint .vip-crown{width:17px;height:17px;color:#f2c95f;filter:drop-shadow(0 0 6px #f2c95f55)}.recipient-vip-hint .vip-found{color:#f3d47e}.recipient-vip-hint .player-found{color:#9eb6cb}.recipient-vip-hint .hint-spinner{width:11px;height:11px;border:2px solid #456079;border-top-color:#86e7d0;border-radius:50%;animation:spinHint .7s linear infinite}@keyframes spinHint{to{transform:rotate(360deg)}}
+.logo{overflow:hidden;flex:0 0 auto}.logo svg{width:100%;height:100%;display:block}.brand{letter-spacing:-.25px}.brand small{letter-spacing:1px}.build-pill{font-size:10px;color:#a4bad3;background:#0c1929}.top-actions .vip-pill{display:inline-flex;align-items:center;gap:6px}.vip-crown{display:inline-flex;width:17px;height:17px;color:#e9b83e;vertical-align:middle;animation:crownFloat 1.9s ease-in-out infinite}.vip-crown svg{width:100%;height:100%;filter:drop-shadow(0 0 4px #ffd76a66)}@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-2px) rotate(3deg)}}.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px #57e6c118;margin-right:4px;animation:livePulse 2s ease-in-out infinite}@keyframes livePulse{50%{box-shadow:0 0 0 7px #57e6c108}}
+.panel,.stat,.btn,.navbtn{transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}.panel:hover{border-color:#2b4964}.btn:active{transform:scale(.985)}.pagehead h1{letter-spacing:-1px}.balancehero{background:radial-gradient(350px 230px at 92% 1%,#2a8290 0%,transparent 72%),linear-gradient(130deg,#10263a,#102037)}.update-banner{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 16px;margin:-4px 0 18px;border-radius:15px;border:1px solid #29665f;background:linear-gradient(110deg,#102f34,#12263a)}.update-banner strong{color:#9af2dc}.update-banner p{margin:3px 0 0;color:#a9c0d4;font-size:11px}.media-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.media-card{overflow:hidden;min-width:0;border:1px solid var(--line);background:#0a1726;border-radius:14px;animation:fade .25s ease}.media-visual{height:160px;background:#0a1320;display:grid;place-items:center;overflow:hidden}.media-visual img,.media-visual video{width:100%;height:100%;object-fit:cover}.media-card-copy{padding:10px 12px}.media-card-copy strong{font-size:12px;display:block;overflow-wrap:anywhere}.media-card-copy small{font-size:10px;color:var(--muted)}.spin-stage{text-align:center;background:radial-gradient(400px 240px at 50% 35%,#193b55 0%,transparent 75%),linear-gradient(140deg,#112138,#0b1827)}.spin-topline{display:flex;justify-content:space-between;align-items:center;gap:8px}.spin-dial{width:min(270px,76vw);aspect-ratio:1;border-radius:50%;margin:22px auto 20px;position:relative;display:grid;place-items:center;border:7px solid #28425c;box-shadow:0 0 0 7px #0a1523,0 16px 38px #0005;background:conic-gradient(from -15deg,#58e2bf 0 64deg,#132b43 64deg 128deg,#f2c75f 128deg 192deg,#183a52 192deg 256deg,#6fb7ff 256deg 320deg,#58e2bf 320deg 360deg)}.spin-dial:before{content:"";position:absolute;inset:16px;border-radius:50%;border:1px dashed #ffffff77}.spin-center{width:100px;height:100px;border-radius:50%;background:linear-gradient(140deg,#193550,#0b1927);border:4px solid #a2f1df;display:grid;align-content:center;justify-items:center;position:relative;z-index:2;box-shadow:0 0 0 5px #0d1d2d}.spin-center strong{font-size:29px;letter-spacing:-1px}.spin-center small{font-size:9px;letter-spacing:2px;color:var(--mint);font-weight:900}.spin-slice-labels{position:absolute;inset:0;border-radius:50%;font-size:10px;font-weight:1000;letter-spacing:1px;color:#071522}.spin-slice-labels span{position:absolute}.spin-slice-labels span:nth-child(1){top:16%;left:31%;transform:rotate(-23deg)}.spin-slice-labels span:nth-child(2){top:39%;right:7%;transform:rotate(47deg)}.spin-slice-labels span:nth-child(3){bottom:16%;left:29%;transform:rotate(-15deg)}.spin-slice-labels span:nth-child(4){top:40%;left:5%;transform:rotate(-53deg)}.spin-pointer{position:absolute;top:-16px;left:calc(50% - 12px);border-left:12px solid transparent;border-right:12px solid transparent;border-top:25px solid #f8f0d5;filter:drop-shadow(0 4px 3px #0008);z-index:3}.spin-dial.spinning{animation:spinWheel 2.5s cubic-bezier(.1,.75,.1,1) forwards}@keyframes spinWheel{to{transform:rotate(1440deg)}}.spin-status{padding:10px;margin-top:9px;border-radius:10px;background:#0b1928;border:1px solid #1e374d;font-size:12px;color:#b7d5e2}.spin-prize-list{display:flex;flex-direction:column;gap:9px}.vip-plan{display:flex;flex-direction:column;align-items:flex-start;gap:7px}.vip-plan strong{font-size:24px}.vip-plan p{margin:0 0 6px}.vip-plan button{margin-top:auto}.receipt-modal{max-width:440px!important;position:relative;overflow:hidden;text-align:center;background:linear-gradient(180deg,#112b3a,#0c1929)!important}.receipt-mark{width:68px;height:68px;margin:8px auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#5be4bd,#a2f0cb);color:#07221e;box-shadow:0 0 0 8px #57e6c118;animation:receiptPop .5s cubic-bezier(.12,.8,.26,1.4)}.receipt-mark svg{width:42px;height:42px}.receipt-modal h2{margin:0 0 4px;font-size:23px}.receipt-modal>p{margin:0 0 15px;font-size:12px}.receipt-rows{border:1px solid var(--line);border-radius:14px;padding:5px 13px;text-align:left;background:#0a1725}.receipt-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #1e3044;font-size:12px}.receipt-row:last-child{border-bottom:0}.receipt-row span{color:var(--muted)}.receipt-row strong{text-align:right;overflow-wrap:anywhere}.receipt-ref{padding:11px 0 3px;color:#9fc9d8;font-size:10px}.receipt-disclaimer{margin-top:14px!important}@keyframes receiptPop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.13)}100%{transform:scale(1);opacity:1}}.receipt-confetti{position:absolute;inset:0 0 auto;height:130px;pointer-events:none;overflow:hidden}.receipt-confetti span{position:absolute;top:-10px;width:7px;height:13px;border-radius:2px;background:var(--mint);animation:confettiFall 1.5s ease-out forwards}.receipt-confetti span:nth-child(1){left:12%;background:#7db9ff}.receipt-confetti span:nth-child(2){left:24%;background:#f5c96a;animation-delay:.12s}.receipt-confetti span:nth-child(3){left:38%;animation-delay:.18s}.receipt-confetti span:nth-child(4){left:56%;background:#7db9ff}.receipt-confetti span:nth-child(5){left:70%;background:#f5c96a;animation-delay:.22s}.receipt-confetti span:nth-child(6){left:82%;animation-delay:.14s}.receipt-confetti span:nth-child(7){left:92%;background:#7db9ff;animation-delay:.28s}.receipt-confetti span:nth-child(8){left:46%;background:#f5c96a;animation-delay:.3s}@keyframes confettiFall{to{transform:translateY(150px) rotate(420deg);opacity:0}}.update-modal{text-align:center;max-width:480px!important;overflow:hidden;background:radial-gradient(400px 220px at 50% 4%,#21465a 0%,transparent 78%),linear-gradient(155deg,#102137,#0a1727)!important}.update-modal h2{font-size:25px;margin:10px 0 5px}.update-modal p{font-size:12px;line-height:1.6}.update-version{font:11px ui-monospace,monospace;color:#9fe9d5;padding:7px 10px;border-radius:99px;background:#0a1927;border:1px solid #27465b;display:inline-block;margin:7px 0 14px}.pixel-stage{height:120px;position:relative;margin:-4px auto 12px;max-width:330px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,#11293e,#0a1929);border:1px solid #26435d}.pixel-runner{position:absolute;left:calc(50% - 26px);bottom:23px;width:52px;height:65px;animation:pixelBounce .6s ease-in-out infinite alternate;image-rendering:pixelated}.pixel-runner:before{content:"";position:absolute;left:13px;top:0;width:28px;height:26px;background:#e6c1a0;border:4px solid #4f352d;box-shadow:-6px 3px #4f352d,6px 3px #4f352d}.pixel-runner:after{content:"";position:absolute;left:9px;top:24px;width:36px;height:25px;background:#7fe4c4;border:4px solid #143b42;box-shadow:0 23px 0 -1px #1c2f4b}.pixel-runner i{position:absolute;left:0;top:27px;width:12px;height:23px;background:#7fe4c4;transform:rotate(24deg);box-shadow:42px -2px #7fe4c4}.pixel-runner b{position:absolute;left:17px;top:7px;width:5px;height:5px;background:#172335;z-index:2;box-shadow:13px 0 #172335}.pixel-runner em{position:absolute;left:19px;top:17px;width:14px;height:3px;background:#6f4639;z-index:2}.pixel-coin{position:absolute;color:#f6d575;font-size:17px;font-weight:1000;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;border:2px solid #d2a63f;background:#4b3c1a;animation:coinToss 1s ease-in-out infinite}.coin-one{left:25%;top:24px}.coin-two{left:67%;top:17px;animation-delay:.25s}.coin-three{left:76%;top:58px;animation-delay:.45s}.pixel-spark{position:absolute;color:#83f0d0;animation:sparkle .9s ease-in-out infinite alternate}.spark-one{left:15%;top:18px}.spark-two{left:86%;top:27px;animation-delay:.4s}@keyframes pixelBounce{to{transform:translateY(-7px)}}@keyframes coinToss{0%,100%{transform:translateY(8px) rotate(0);opacity:.5}50%{transform:translateY(-13px) rotate(180deg);opacity:1}}@keyframes sparkle{to{transform:scale(1.5) rotate(30deg);opacity:.45}}.update-progress{height:7px;border-radius:99px;overflow:hidden;background:#1c3044;margin:10px 0 15px}.update-progress span{display:block;height:100%;width:35%;border-radius:99px;background:linear-gradient(90deg,#5be4bd,#6fb7ff);animation:updateIndeterminate 1.15s ease-in-out infinite alternate}@keyframes updateIndeterminate{from{transform:translateX(-15%)}to{transform:translateX(185%)}}.dangertext{color:#ff9aaa}
+@media(max-width:650px){.media-gallery{grid-template-columns:1fr}.media-visual{height:190px}.update-banner{align-items:flex-start;flex-direction:column}.spin-dial{width:min(250px,70vw)}.spin-center{width:86px;height:86px}}
+
+:root{--bg:#f5f2fb;--panel:#fff;--panel2:#f8f5ff;--line:#e6dff3;--text:#211738;--muted:#786d8d;--mint:#6a35c8;--blue:#9070e8;--shadow:0 12px 34px #39215b10}html{background:#f5f2fb}body{background:radial-gradient(900px 420px at 90% -18%,#e6dcff 0%,transparent 68%),#f5f2fb;color:var(--text)}.topbar{background:#fffefdf0;border-bottom-color:#e5dcf2}.play-money-pill{display:inline-flex;align-items:center;gap:6px;background:#f3edff;color:#5d2eb3;border:1px solid #dfd0ff;border-radius:100px;padding:7px 10px;font-size:10px;font-weight:900}.play-money-pill svg{width:16px;height:16px;fill:none;stroke:currentColor}.sidebar,.panel,.stat{background:#fff;border-color:#e7dff3;box-shadow:0 10px 30px #37205b08}.sidebar{padding:10px;border-radius:20px}.navbtn{color:#77698c}.navbtn:hover,.navbtn.active{background:#f1eaff;border-color:#e3d4ff;color:#5422b3}.navbtn.active{box-shadow:inset 3px 0 #6c39c8}.navbtn .ico{display:grid;place-items:center;width:21px;height:21px}.navbtn .ico svg,.btn-icon{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.balancehero{background:radial-gradient(500px 250px at 90% 0%,#9c7be9 0%,transparent 70%),linear-gradient(125deg,#5324b4,#7444d2 72%,#a384f0);border-color:#7d5bc9;color:#fff}.balancehero .eyebrow,.balancehero .subbalance{color:#e8dcff}.btn{transition:transform .18s,box-shadow .18s,background .18s;background:#f7f2ff;border-color:#e2d6f3;color:#4c3370}.btn:hover{background:#eee4ff;transform:translateY(-1px)}.btn.primary{background:linear-gradient(120deg,#7545d3,#5320b5);color:#fff;box-shadow:0 8px 18px #6231ba24}.btn.gold{background:linear-gradient(120deg,#f8dd8d,#e8ba53);color:#42300d}.tag{background:#f2eaff;border-color:#e3d4ff;color:#6234b9}.field input,.field select{background:#fcfaff;border-color:#e0d5f0;color:#261a3e}.listitem,.announce{background:#fcfaff;border-color:#eee6f8}.listitem .itemicon{background:#f0e8ff;color:#6635c1}.modal{background:#21133799}.modalbox{background:#fff;border-color:#e4d8f4}.authart{background:radial-gradient(500px 500px at 30% 30%,#8551d8,transparent 68%),#24103f}.authformarea{background:#fbf9ff}.navbtn .ico svg{width:20px;height:20px}.open-pay-panel{background:linear-gradient(135deg,#fff,#faf6ff)}.open-pay-layout{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:center;gap:20px}.open-pay-layout .qrbox{margin:0}.payment-confirm-box{width:min(440px,100%);text-align:center}.payment-confirm-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.payment-confirm-logo{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#8150dc,#5220b2);color:white}.payment-confirm-logo svg{width:26px;height:26px}.payment-review-card{background:#f8f4ff;border:1px solid #e8ddf7;border-radius:20px;padding:20px;margin:18px 0;text-align:left}.payment-review-card strong{display:block;font-size:19px;margin:4px 0 16px}.confirm-amount{font-size:36px;font-weight:900;color:#5627b0;margin-top:4px}.payment-play-label{font-size:9px;font-weight:900;letter-spacing:.8px;color:#78668e;margin-top:4px}.swipe-label{display:block;font-weight:850;margin:14px 0 8px;text-align:left}.swipe-track{position:relative;height:58px;background:#f1e9ff;border:1px solid #e2d2fa;border-radius:999px;display:flex;align-items:center;justify-content:center;overflow:hidden}.swipe-track input{position:absolute;inset:0;width:100%;height:100%;opacity:.01;cursor:ew-resize;z-index:3}.swipe-icon{position:absolute;left:5px;top:5px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#7c4bd8,#5320b6);color:#fff;transition:left .12s;z-index:2;pointer-events:none}.swipe-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}.swipe-track span:last-child{color:#6d548e;font-size:10px;font-weight:950;letter-spacing:.6px;pointer-events:none}.receipt-mark{animation:receiptPop .45s cubic-bezier(.2,1.5,.5,1)}@keyframes receiptPop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}@media(max-width:850px){.play-money-pill{display:none}.open-pay-layout{grid-template-columns:1fr}.open-pay-layout .qrbox{margin:0 auto}.sidebar{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.layout{grid-template-columns:1fr;padding:14px}.navbtn{justify-content:center;font-size:11px;padding:10px 5px}.side-note{grid-column:1/-1}.bigbalance{font-size:36px}}@media(max-width:560px){.topbar{padding:10px 12px;flex-wrap:wrap}.layout{padding:10px}.pagehead h1{font-size:23px}.grid.two,.grid.three{grid-template-columns:1fr}.panel{padding:15px}.formrow{grid-template-columns:1fr}.open-pay-layout{gap:12px}.payment-confirm-box{padding:17px}.confirm-amount{font-size:32px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* LPI PIXEL GRID · cyan + electric green redesign */
+:root{--bg:#061921;--panel:#0a2730;--panel2:#103943;--line:#1b5860;--text:#e8fff8;--muted:#94bfc1;--mint:#70ffad;--blue:#70ffad;--gold:#caff70;--red:#ff8493;--shadow:0 14px 0 #031016,0 24px 50px #0006;--pixel-green:#70ffad;--pixel-blue:#70ffad}
+html{background:var(--bg)}
+body{background-color:var(--bg);background-image:linear-gradient(#70ffad0a 1px,transparent 1px),linear-gradient(90deg,#70ffad0a 1px,transparent 1px),radial-gradient(900px 520px at 78% -15%,#087d8270 0%,transparent 68%);background-size:16px 16px,16px 16px,auto;color:var(--text)}
+.topbar{background:#061921ec;border-bottom:2px solid #1d5963;box-shadow:0 5px 0 #020d12}
+.panel,.modalbox,.hero-card,.balance-card,.stat-card,.payment-review-card,.receipt-card,.update-version,.announce,.listitem,.media-card{border-radius:5px!important;border-color:#1b5860!important;box-shadow:4px 4px 0 #031016}
+.panel{background:linear-gradient(150deg,#0d3039,#09232c)!important;position:relative}
+.panel:after{content:"";position:absolute;left:9px;top:9px;width:5px;height:5px;background:var(--mint);box-shadow:7px 0 var(--blue),0 7px var(--blue);opacity:.85;pointer-events:none}
+h1,h2,h3,.brand-name,.hero-title,.balance-amount,.confirm-amount{letter-spacing:-.035em}
+h1,h2,h3,.brand-name,.tag,.mono,.btn,.tab,.fineprint strong{ text-shadow:0 0 18px #70ffad17}
+.btn{border-radius:4px!important;border:1px solid #28616a!important;box-shadow:3px 3px 0 #020d12;transition:transform .13s ease,box-shadow .13s ease,filter .13s ease}
+.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 #020d12;filter:brightness(1.08)}
+.btn.primary{background:linear-gradient(115deg,#70ffad,#70ffad)!important;color:#03191d!important;border-color:#91ffc3!important;font-weight:850}
+.btn.ghost{background:#0a2932!important;color:#c9fbf0!important}
+.tag{border-radius:3px!important;background:#0b3540!important;color:#74ffb1!important;border:1px solid #246d72!important}
+input,select,textarea{background:#061e26!important;color:var(--text)!important;border:1px solid #285c63!important;border-radius:4px!important;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)!important;box-shadow:0 0 0 3px #70ffad1c!important}
+.checkpill{border-radius:4px!important;background:#0b3038!important;border-color:#275b62!important}
+.icon,.itemicon,.navicon{color:var(--blue)}
+.nav-item.active,.tab.active,.segment.active{color:var(--mint)!important;background:#0d3940!important;border-color:#70ffad!important;box-shadow:inset 3px 0 var(--mint)}
+.update-banner{border:1px solid #2e8b78!important;background:linear-gradient(100deg,#083b39,#092a3a)!important;box-shadow:4px 4px 0 #031016}
+.modal{backdrop-filter:blur(8px);background:#020b10dc!important}
+.modalbox{background:linear-gradient(145deg,#0b3038,#071d26)!important;border:1px solid #26727a!important}
+.pixel-stage{background:linear-gradient(135deg,#062b35,#0b4041)!important;border:1px solid #24757a!important;border-radius:4px!important}
+.pixel-coin{border-radius:2px!important;background:var(--mint)!important;color:#05242a!important;box-shadow:3px 3px 0 #031016}
+.pixel-runner i,.pixel-runner b,.pixel-runner em{border-radius:1px!important;background:var(--blue)!important}
+.update-progress{height:13px;border:1px solid #26727a;border-radius:2px!important;background:#04171e!important;box-shadow:inset 0 0 0 2px #020f14}
+.update-progress>div{display:block;height:100%;width:0%;background:repeating-linear-gradient(90deg,#70ffad 0 12px,#70ffad 12px 20px);transition:width .18s linear;box-shadow:0 0 14px #70ffad70}
+.update-version{background:#071f28!important;color:#baf9e3!important;border:1px dashed #34747a!important;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.receipt-mark,.payment-confirm-logo{background:#0b3d40!important;color:var(--mint)!important;border:1px solid #4bd8be!important}
+.toast{border-radius:4px!important;border:1px solid #28706d!important;background:#082932!important;box-shadow:4px 4px 0 #031016!important}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:#061921}::-webkit-scrollbar-thumb{background:#1e6468;border:2px solid #061921}
+@media(max-width:650px){.panel{box-shadow:3px 3px 0 #031016!important}.topbar{padding:12px 14px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Actual app component selectors (legacy names) */
+.sidebar{background:#08252e!important;border-color:#1b5860!important;border-radius:5px!important;box-shadow:4px 4px 0 #031016!important}
+.navbtn{color:#91c0c4!important;border-radius:4px!important}
+.navbtn:hover,.navbtn.active{background:#0e3a42!important;border-color:#286b70!important;color:var(--mint)!important}
+.navbtn.active{box-shadow:inset 3px 0 #70ffad!important}
+.stat{background:#0a2730!important;border-color:#1b5860!important;box-shadow:4px 4px 0 #031016!important;border-radius:5px!important}
+.balancehero{background:radial-gradient(440px 250px at 90% 0%,#127c85 0%,transparent 72%),linear-gradient(125deg,#0a4b4d,#075c50 48%,#08617a)!important;border:1px solid #39cdb7!important;color:#f2fff9!important}
+.balancehero .eyebrow,.balancehero .subbalance{color:#bafbe8!important}
+.authart{background:radial-gradient(450px 450px at 28% 27%,#118c8c 0%,transparent 70%),linear-gradient(145deg,#062c37,#071a25)!important}
+.authformarea{background:#071f28!important}
+.open-pay-panel{background:linear-gradient(135deg,#0b3038,#09232c)!important}
+.payment-review-card{background:linear-gradient(135deg,#0d3c43,#09262f)!important}
+.listitem .itemicon{background:#0b3940!important;color:var(--blue)!important}
+.btn.gold{background:linear-gradient(120deg,#caff70,#70ffad)!important;color:#09231d!important;border-color:#baff80!important}
+.pagehead,.panelhead{border-color:#1b5860!important}
+.play-money-pill{background:#0a3b40!important;color:#9dffd0!important;border-color:#286f6c!important}
+
+/* LPI CITY v0.4.0 — dark emerald wallet refresh */
+:root{--bg:#050906;--panel:#0b130d;--panel2:#111d13;--line:#25412b;--text:#f0fff3;--muted:#b1c6b5;--mint:#47ed83;--blue:#91ffb6;--gold:#ffd35d;--red:#ff8490;--shadow:0 18px 46px #0009}
+html,body{background:#050906!important;color:#f0fff3!important}
+body{background:radial-gradient(900px 480px at 72% -14%,#174525 0%,transparent 64%),#050906!important}
+.topbar{background:rgba(4,10,6,.96)!important;border-bottom:1px solid #23452d!important;box-shadow:0 12px 35px #0008}
+.brand{color:#f1fff3!important}.brand small{color:#a7c5af!important}
+.logo{background:linear-gradient(135deg,#67ff9a,#22b85d)!important;color:#041008!important;box-shadow:0 8px 24px #39ee7a25!important}
+.logo svg rect{fill:#0d2916!important}.logo svg path,.logo svg circle{fill:#70ff9a!important}
+.play-money-pill{background:#0d2815!important;color:#9dffb8!important;border-color:#28623a!important}
+.pill,.build-pill{background:#101d13!important;color:#d4eadd!important;border-color:#294832!important}
+.vip-pill{background:linear-gradient(120deg,#ffe89a,#d6a12b)!important;color:#241800!important;border:1px solid #ffdf7a!important}
+.layout{gap:20px}.sidebar{background:transparent}
+.navbtn{color:#b4c9b8!important}
+.navbtn:hover,.navbtn.active{background:#102719!important;border-color:#285c37!important;color:#f0fff3!important}
+.navbtn.active{box-shadow:inset 3px 0 #48ed83!important}
+.side-note,.panel,.modalbox{background:linear-gradient(145deg,#111d13,#0a120c)!important;border-color:#27472f!important;color:#eaffef!important}
+.panel{box-shadow:0 16px 42px #0006!important}
+.panel h2,.panel h3,.pagehead h1,.modalhead h2{color:#f2fff4!important}
+.pagehead p,.muted,.fineprint,.stat label{color:#adc2b2!important}
+.stat{background:#0b160e!important;border-color:#25412b!important}
+.stat strong{color:#effff2!important}
+.balancehero{background:radial-gradient(480px 230px at 90% 0%,#1a6335 0%,transparent 70%),linear-gradient(125deg,#0b2313,#102d19)!important;border-color:#2c7543!important}
+.eyebrow{color:#a8f2bc!important}.bigbalance{color:#f5fff6!important}.coin{color:#75f69b!important}
+.btn{background:#142519!important;border-color:#31583b!important;color:#edfff1!important}
+.btn:hover{background:#1b3422!important}
+.btn.primary{background:linear-gradient(120deg,#59f18b,#25bf62)!important;color:#041208!important;border:0!important;box-shadow:0 8px 20px #29d56822}
+.btn.primary:hover{background:linear-gradient(120deg,#7bffa5,#43df7a)!important}
+.btn.gold{background:linear-gradient(120deg,#ffe48a,#d8a52d)!important;color:#251900!important}
+.btn.ghost{background:#0a130c!important;border-color:#31513a!important;color:#cce3d1!important}
+.btn.danger{background:#31171c!important;border-color:#78323d!important;color:#ffabb1!important}
+.tag{background:#102b19!important;border-color:#2c6840!important;color:#83f6a4!important}
+.tag.gold{background:#302714!important;border-color:#715922!important;color:#ffe08b!important}
+.tag.red{background:#30191e!important;border-color:#773541!important;color:#ffabb4!important}
+.virtual-card,.virtual-card.royal,.virtual-card.aura,.lpi-card-modern{background:radial-gradient(240px 170px at 95% 5%,#1b5d31 0%,transparent 72%),linear-gradient(135deg,#07150b,#10291a 58%,#07140b)!important;border:1px solid #3d9c58!important;color:#f4fff5!important;box-shadow:0 18px 42px #0008,inset 0 1px #ffffff12!important}
+.virtual-card:before{border-color:#88ffab30!important;box-shadow:0 0 0 25px #88ffab0c,0 0 0 52px #88ffab08!important}
+.cardname{color:#f2fff4!important;letter-spacing:1.4px}.cardnote{color:#a6eaba!important}.cardnumber{color:#e7ffed!important;font-size:clamp(18px,2vw,22px);letter-spacing:2.4px}
+.cardbottom label{color:#9fc9a9!important}.cardbottom strong{color:#f3fff5!important}.cardwatermark{color:#b1ffc111!important}
+.field label{color:#d0e6d5!important}
+.field input,.field select{background:#060d08!important;border-color:#31523a!important;color:#f2fff4!important}
+.field input::placeholder{color:#88a28e!important}
+.field input:focus,.field select:focus{border-color:#58ef8b!important;box-shadow:0 0 0 3px #58ef8b22!important}
+.checkpill{background:#0c170f!important;border-color:#2a4932!important;color:#d8ecdd!important}.checkpill input{accent-color:#53ee86!important}
+.listitem,.announce{background:#0a150d!important;border-color:#243f2a!important;color:#f0fff3!important}
+.listitem .itemicon{background:#12331d!important;color:#7df5a0!important}
+.listitem .itemtext small,.listitem .itemamount small{color:#acc1b0!important}
+.empty{border-color:#365840!important;color:#bbcfbf!important}
+.tablewrap{border-color:#2b4932!important}.table th{background:#0e1a11!important;color:#b7d5bf!important}.table td{color:#ecfff0!important;border-color:#213b28!important}
+.modal{background:#010603e8!important}.modalbox{box-shadow:0 30px 100px #000c!important}
+.close{background:#132218!important;color:#effff3!important;border-color:#31533a!important}
+.authart{background:radial-gradient(520px 500px at 30% 25%,#18512a,transparent 68%),radial-gradient(500px 400px at 100% 100%,#10281a,transparent 70%),#050906!important;border-right-color:#25412b!important}
+.authart h1 span{color:#66f18f!important}.authart p{color:#c1d7c6!important}
+.authformarea{background:#050906!important}.authform h2{color:#f4fff6!important}
+.hero-orb{border-color:#59ee8830!important;background:radial-gradient(circle,#112519 0%,#09120c 58%,transparent 60%)!important;box-shadow:0 0 0 25px #59ee880d,0 0 0 52px #59ee8807!important}
+.orbcore{background:linear-gradient(130deg,#65f39a,#1eae54)!important;color:#031007!important;box-shadow:0 20px 80px #49f08a40!important}
+.qrbox{background:#fff!important;color:#000!important}
+.recipient-vip-hint,.vip-found{color:#ffe39a!important}.recipient-vip-hint .vip-crown{color:#ffd55b!important}
+.vip-crown{width:21px;height:21px;color:#ffd45b!important;filter:drop-shadow(0 0 5px #ffcf4a99);animation:vipCrownGlow 2.1s ease-in-out infinite!important}
+.vip-crown svg{width:100%;height:100%;filter:drop-shadow(0 0 5px #ffcb4e88)!important}
+@keyframes vipCrownGlow{0%,100%{transform:translateY(0) rotate(-5deg) scale(1);filter:drop-shadow(0 0 4px #ffca46aa)}50%{transform:translateY(-4px) rotate(5deg) scale(1.16);filter:drop-shadow(0 0 10px #ffdf7a)}}
+#userBadge{display:inline-flex;align-items:center;gap:7px;color:#f2fff4!important;font-weight:900}
+@media(max-width:650px){
+ .layout{display:block;padding:12px 12px 88px!important}
+ .sidebar{position:fixed!important;left:0;right:0;bottom:0;top:auto!important;z-index:45;display:flex!important;flex-direction:row!important;align-items:stretch;gap:3px!important;overflow-x:auto!important;overflow-y:hidden;background:#050b07!important;border-top:1px solid #25432d;padding:7px 8px max(7px,env(safe-area-inset-bottom))!important;box-shadow:0 -12px 35px #0009}
+ .navbtn{flex:1 0 62px;display:flex;flex-direction:column!important;justify-content:center;align-items:center;gap:3px!important;padding:6px 4px!important;font-size:9px!important;white-space:nowrap;border-radius:10px!important}
+ .navbtn .ico{font-size:17px!important;width:auto!important}
+ .navbtn.active{box-shadow:inset 0 2px #48ed83!important}
+ .side-note{display:none!important}
+ .topbar{gap:7px;padding:10px 12px!important}.brand{font-size:15px!important}.brand small{font-size:9px!important}
+ .top-actions{gap:5px!important}.cardnumber{font-size:18px;letter-spacing:1.7px}
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+<div id="authScreen" class="authscreen">
+ <div class="authart">
+  <div>
+   <div class="brand"><div class="logo" aria-label="LPI logo"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="13" fill="#76e4d0"/><path d="M11 12h5v13h9v4H11z" fill="#071522"/><path d="M22 11h6.4a5.6 5.6 0 0 1 0 11.2H27v4.8h-5zm5 7.2h1.2a1.6 1.6 0 1 0 0-3.2H27z" fill="#071522"/><circle cx="30.8" cy="29.4" r="2.1" fill="#071522"/></svg></div><div>LPI CITY<small>your city • your rules</small></div></div>
+   <h1>Make your own<br><span>city money.</span></h1>
+   <p>A shared pretend-money world for you and your friends. Send game coins, issue city bills, collect gift codes, build VIP status and watch the fictional gold market.</p>
+   <div class="hero-orb"><div class="orbcore">LPI</div></div>
+  </div>
+  <div class="fineprint">Made by Gemaa · A fictional game. Not a bank, UPI, RuPay, FamPay or real-money service.</div>
+ </div>
+ <div class="authformarea">
+  <form id="authForm" class="authform">
+   <div class="authbrand"><div class="logo" aria-label="LPI logo"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="13" fill="#76e4d0"/><path d="M11 12h5v13h9v4H11z" fill="#071522"/><path d="M22 11h6.4a5.6 5.6 0 0 1 0 11.2H27v4.8h-5zm5 7.2h1.2a1.6 1.6 0 1 0 0-3.2H27z" fill="#071522"/><circle cx="30.8" cy="29.4" r="2.1" fill="#071522"/></svg></div><div><strong>LPI City Money</strong><div class="tiny muted">A shared game economy</div></div></div>
+   <h2 id="authTitle">Create your account</h2>
+   <p id="authSub">Choose your player name and a password.</p>
+   <div class="authswitch"><button type="button" class="active" data-authmode="signup">Create account</button><button type="button" data-authmode="login">Log in</button></div>
+   <div class="field"><label for="authName">PLAYER NAME</label><input id="authName" name="name" autocomplete="username" placeholder="e.g. Gemaa" minlength="3" maxlength="24" required></div>
+   <div class="field"><label for="authPassword">PASSWORD</label><input id="authPassword" name="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required></div>
+   <div id="authError" class="fineprint dangertext" style="margin-bottom:12px"></div>
+   <button id="authSubmit" class="btn primary block" type="submit">Create city account <span>→</span></button>
+   <p class="fineprint footnote">New accounts start with 5,000 LPI game coins. Use a password you don't use anywhere else. Accounts are stored globally through the connected LPI game server.</p>
+  </form>
+ </div>
+</div>
+
+<div id="appShell" class="app">
+ <header class="topbar">
+  <div class="brand"><div class="logo" aria-label="LPI logo"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="8" fill="#082b32"/><path d="M11 12h5v13h9v4H11z" fill="#70ffad"/><path d="M22 11h6.4a5.6 5.6 0 0 1 0 11.2H27v4.8h-5zm5 7.2h1.2a1.6 1.6 0 1 0 0-3.2H27z" fill="#70ffad"/><circle cx="30.8" cy="29.4" r="2.1" fill="#70ffad"/></svg></div><div>LPI CITY<small>play-money wallet</small></div></div><span class="play-money-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 17 5v5c0 4-3 6.5-7 8-4-1.5-7-4-7-8V5z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m6.5 10 2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> PLAY MONEY · NOT REAL UPI</span>
+  <div class="top-actions">
+   <span id="vipBadge" class="pill vip-pill hidden"><span class="vip-crown" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7.5 7.1 11l4.9-7 4.9 7L21 7.5 19 18H5z" fill="currentColor"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> VIP PLAYER</span>
+   <span id="userBadge" class="pill account-pill">PLAYER</span><span id="buildBadge" class="pill build-pill">v0.4.0</span>
+   <button id="updatesOpen" class="btn ghost small" type="button" title="Check for updates"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.8-3L3 11"/><path d="M3 5v6h6M4 13a8 8 0 0 0 14.8 3L21 13"/><path d="M21 19v-6h-6"/></svg> Updates</button>
+   <button id="adminOpen" class="btn ghost small" title="Alt+T"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 13.5 20 15l-2 3-1.5-.6-1.5.8-.3 1.8h-4.4L10 18.2l-1.5-.8L7 18l-2-3 1.3-1.5v-1.7L5 10.5l2-3 1.5.6L10 7.3l.3-1.8h4.4l.3 1.8 1.5.8L18 7.5l2 3-1 1.5z"/></svg> Admin</button>
+   <button id="logoutBtn" class="btn ghost small">Log out</button>
+  </div>
+ </header>
+ <div class="layout">
+  <aside class="sidebar">
+   <button class="navbtn active" data-page="home"><span class="ico"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg></span> Overview</button>
+   <button class="navbtn" data-page="payments"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 19 19 5M7 5h12v12"/></svg></span> Pay & receive</button>
+   <button class="navbtn" data-page="rewards"><span class="ico"><svg viewBox="0 0 24 24"><path d="m12 2 3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></svg></span> Global Spin</button>
+   <button class="navbtn" data-page="cards"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span> Cards & gifts</button>
+   <button class="navbtn" data-page="invest"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 18 8 12l4 3 7-9M14 6h5v5"/></svg></span> Gold & SIP</button>
+   <button class="navbtn" data-page="activity"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span> Activity</button>
+   <div class="side-note"><strong>● CITY SERVER ONLINE</strong>Balances sync across player phones. Every amount is fictional LPI game currency.</div>
+  </aside>
+  <main class="content">
+   <section id="page-home" class="page active">
+    <div class="pagehead"><div><h1>Welcome back, <span id="helloName">Player</span></h1><p>Your city wallet at a glance.</p></div><span class="tag"><span class="live-dot"></span> Server synced</span></div><div id="updateBanner" class="update-banner hidden"><div><strong>Update available · <span id="updateBannerVersion"></span></strong><p>Update now to keep payments compatible and unlock new features. Older versions may lose access to payments or new features.</p></div><button id="updateBannerBtn" class="btn primary small" type="button">View update</button></div>
+    <div class="grid two">
+     <div class="panel balancehero">
+      <div class="eyebrow">TOTAL CITY BALANCE</div>
+      <div id="balanceValue" class="bigbalance">5,000 <span class="coin">LPI</span></div>
+      <div class="subbalance">Game coins · no real-world cash value</div>
+      <div class="quickrow"><button class="btn primary" data-goto="payments">↗ Send coins</button><button class="btn" data-goto="payments">▦ Receive / QR</button><button class="btn gold" data-action="buy-vip"><svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4 3 5-7 5 7 4-3-2 10H5zM6 21h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> Get VIP</button></div>
+     </div>
+     <div class="panel">
+      <div class="panelhead"><h2>Your CityCard</h2><span class="tag">SIMULATED</span></div>
+      <div id="cardMini"></div>
+      <div class="fineprint" style="margin-top:9px">A fictional player card for your city game. It cannot pay at real shops or banks.</div>
+     </div>
+    </div>
+    <div class="grid three sectiongap">
+     <div class="stat"><label>Payments made</label><strong id="statSent">0</strong><div class="delta">Your city activity</div></div>
+     <div class="stat"><label>Pending bills</label><strong id="statBills">0</strong><div class="delta">Game-only obligations</div></div>
+     <div class="stat"><label>Gold units owned</label><strong id="statGold">0.000</strong><div class="delta">Simulated market</div></div>
+    </div>
+    <div class="grid two sectiongap">
+     <div class="panel"><div class="panelhead"><h2>Recent activity</h2><button class="btn ghost small" data-goto="activity">See all →</button></div><div id="homeActivity" class="list"></div></div>
+     <div class="panel"><div class="panelhead"><h2>City announcements</h2><span class="tag">GLOBAL</span></div><div id="homeAnnouncements"></div></div>
+    </div>
+    <div class="panel sectiongap"><div class="panelhead"><h2>Your city cards</h2><span class="tag">FROM ADMIN</span></div><div id="mediaCardGallery" class="media-gallery"></div><p class="fineprint" style="margin:10px 0 0">Photos and videos shared by your city admin. Each card is limited to 4 MB.</p></div>
+    <div class="panel sectiongap"><div class="panelhead"><h2>City bills</h2><button class="btn ghost small" data-goto="activity">View bills →</button></div><div id="homeBills" class="list"></div><p class="fineprint" style="margin:12px 0 0">An overdue game bill never locks your screen or blocks your phone. You can pay it when your city rules allow.</p></div>
+   </section>
+
+   <section id="page-rewards" class="page">
+     <div class="pagehead"><div><h1>Global Spin</h1><p>One daily spin for pretend city prizes and game bonuses.</p></div><span class="tag gold">DAILY REWARD</span></div>
+     <div class="grid two">
+      <div class="panel spin-stage">
+       <div class="spin-topline"><span class="eyebrow">CITY REWARD WHEEL</span><span class="tag">GLOBAL RULES</span></div>
+       <div id="spinDial" class="spin-dial" aria-label="Decorative reward wheel"><div class="spin-slice-labels"><span>COINS</span><span>VIP</span><span>LUCKY</span><span>BONUS</span></div><div class="spin-center"><strong>LPI</strong><small>SPIN</small></div><div class="spin-pointer"></div></div>
+       <button id="spinBtn" class="btn primary block" type="button">Spin today's reward ↗</button><div id="spinStatus" class="spin-status">Your daily spin is ready.</div>
+       <p class="fineprint">Prizes are LPI game coins, temporary game VIP, or a pretend cashback coupon. They are not real rupees and cannot be redeemed for cash.</p>
+      </div>
+      <div class="panel"><div class="panelhead"><h2>Today's possible prizes</h2><span class="tag">ADMIN MANAGED</span></div>
+       <div id="spinPrizeList" class="spin-prize-list">
+        <div class="listitem"><div class="itemicon">＋</div><div class="itemtext"><strong>10, 20 or 30 LPI coins</strong><small>Added to your city game balance</small></div></div>
+        <div class="listitem"><div class="itemicon">％</div><div class="itemtext"><strong>20% pretend cashback</strong><small>Coupon for your next simulated transfer</small></div></div>
+        <div class="listitem"><div class="itemicon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4 3 5-7 5 7 4-3-2 10H5zM6 21h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div><div class="itemtext"><strong>10-minute VIP pass</strong><small>Temporary animated crown status</small></div></div>
+       </div>
+       <div class="divider"></div><div class="rowbetween"><span class="muted">Daily limit</span><strong>1 spin per player / UTC day</strong></div>
+       <div class="rowbetween sectiongap"><span class="muted">App build</span><strong>v0.3.0</strong></div>
+       <div class="sectiongap"><button class="btn ghost block" type="button" data-action="check-updates">Check for app updates</button></div>
+      </div>
+     </div>
+     <div class="panel sectiongap"><div class="panelhead"><h2>VIP membership</h2><span class="tag gold">ANIMATED CROWN</span></div>
+      <p class="muted">VIP status gives your name a small animated crown so other players can spot it. All prices below are pretend LPI game coins.</p>
+      <div class="grid two">
+       <div class="stat vip-plan"><span class="tag gold">30 MINUTES</span><strong>1,999 LPI</strong><p class="fineprint">Temporary VIP with an animated crown and simulated transfer perks.</p><button class="btn gold block" type="button" data-action="buy-vip" data-duration="30m">Get 30-minute VIP</button></div>
+       <div class="stat vip-plan"><span class="tag gold">LIFETIME</span><strong>19,999 LPI</strong><p class="fineprint">Permanent VIP game status for this LPI account.</p><button class="btn block" type="button" data-action="buy-vip" data-duration="lifetime">Get lifetime VIP</button></div>
+      </div>
+     </div>
+    </section>
+
+    <section id="page-payments" class="page">
+    <div class="pagehead"><div><h1>Pay & receive</h1><p>Send game coins, or create a request the other player approves.</p></div><span class="tag">LPI TO LPI</span></div>
+    <div class="grid two">
+     <div class="panel">
+      <div class="panelhead"><h2>Send a payment</h2><span class="tag">DIRECT</span></div>
+      <form id="sendForm">
+       <div class="field"><label>PLAYER NAME</label><input id="sendTo" placeholder="Name of the receiver" autocomplete="off" required></div><div id="recipientVipHint" class="recipient-vip-hint" aria-live="polite"></div>
+       <div class="field"><label>AMOUNT · LPI GAME COINS</label><input id="sendAmount" type="number" min="1" step="1" placeholder="e.g. 250" required></div>
+       <div class="field"><label>PAYMENT MODE</label><select id="sendMethod"><option value="direct">City transfer</option><option value="card">Simulated card payment</option></select></div>
+       <button class="btn primary block" type="submit">Review and send →</button>
+      </form>
+      <p class="fineprint">Transfers are final in the game after confirmation. Confirm the player's name and amount first.</p><button class="btn ghost block sectiongap" id="bioSetupBtn" type="button"><svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7v2M12 7a3 3 0 0 0-3 3v3M12 11v4M12 3a7 7 0 0 1 7 7v3M15 11v4a3 3 0 0 1-3 3M8 15v1a4 4 0 0 0 8 0v-2"/></svg> Set up device fingerprint / biometric</button><p id="bioStatus" class="fineprint">Optional. Your device may use fingerprint, face unlock, or system passcode.</p>
+     </div>
+     <div class="panel">
+      <div class="panelhead"><h2>Request payment</h2><span class="tag">QR / TAP SIMULATION</span></div>
+      <form id="requestForm">
+       <div class="field"><label>AMOUNT TO RECEIVE</label><input id="requestAmount" type="number" min="1" step="1" placeholder="e.g. 125" required></div>
+       <button class="btn primary block" type="submit">Create payment request</button>
+      </form>
+      <div id="requestResult" class="hidden" style="margin-top:12px;text-align:center">
+       <div class="fineprint">Show this QR or share the short code with the payer.</div>
+       <div id="requestQr" class="qrbox"></div>
+       <div id="requestCode" class="codebig mono"></div>
+       <div id="requestExpires" class="fineprint"></div>
+       <button id="copyRequestCode" type="button" class="btn block" style="margin-top:9px">Copy request code</button>
+      </div>
+      <p class="fineprint">Real phone-to-phone NFC is not supported on every browser, so LPI uses a shared QR / 6-digit approval code instead.</p>
+     </div>
+    </div>
+    <div class="panel sectiongap open-pay-panel"><div class="panelhead"><div><h2>Your personal pay QR</h2><p class="fineprint">Anyone can scan this and choose any game-coin amount to send you.</p></div><span class="tag">OPEN AMOUNT</span></div><div class="open-pay-layout"><div id="personalPayQr" class="qrbox"></div><div><div class="eyebrow">YOUR CITY PAY CODE</div><div id="personalPayCode" class="codebig mono">PLAYER</div><p class="fineprint">This QR identifies your LPI player only. It is not a UPI ID and cannot receive real money.</p><button class="btn block" id="copyPersonalPayCode" type="button">Copy pay code</button></div></div></div>
+    <div class="grid two sectiongap">
+     <div class="panel">
+      <div class="panelhead"><h2>Pay a request</h2><span class="tag">PLAYER APPROVAL</span></div>
+      <form id="payCodeForm">
+       <div class="field"><label>6-DIGIT REQUEST CODE</label><input id="payCode" inputmode="numeric" maxlength="6" placeholder="000000" required></div>
+       <div class="formrow"><button class="btn block" id="scanBtn" type="button">▦ Scan QR</button><button class="btn primary block" type="submit">Check code</button></div>
+      </form>
+      <div id="payReview" class="hidden sectiongap">
+       <div class="divider"></div><div id="payReviewInfo"></div>
+       <button id="approveRequest" class="btn primary block" style="margin-top:12px">Approve payment</button>
+      </div>
+     </div>
+     <div class="panel"><div class="panelhead"><h2>Incoming requests</h2><span class="tag">LIVE</span></div><div id="incomingRequests" class="list"></div><p class="fineprint" style="margin-top:10px">Requests expire after 10 minutes. Players approve each payment themselves.</p></div>
+    </div>
+   </section>
+
+   <section id="page-cards" class="page">
+    <div class="pagehead"><div><h1>Cards & gift codes</h1><p>Your simulated card and one-time city gift codes.</p></div><span class="tag">MOCK CARDS ONLY</span></div>
+    <div class="grid two">
+     <div class="panel"><div class="panelhead"><h2>Your LPI Player Card</h2><button class="btn ghost small" id="copyCardId" type="button">Copy player ID</button></div><div id="cardLarge"></div><p class="fineprint" style="margin-top:10px">This public ID identifies your LPI game profile only. It is not a payment-card number; the app never creates or stores CVVs.</p></div>
+     <div class="panel"><div class="panelhead"><h2>Create a gift card</h2><span class="tag">ONE USE</span></div>
+      <form id="giftCreateForm"><div class="field"><label>VALUE IN GAME COINS</label><input id="giftAmount" type="number" min="1" step="1" placeholder="e.g. 200" required></div><div class="field"><label>GIFT CARD STYLE</label><select id="giftBrand"><option value="LPI NEON">LPI Neon · Teal</option><option value="LPI ROYAL">LPI Royal · Purple</option><option value="LPI AURA">LPI Aura · Pink / gold</option></select></div><button type="submit" class="btn primary block">Create & debit wallet</button></form><div id="giftCreated" class="hidden sectiongap"></div><div id="giftCardHistory" class="list sectiongap"></div><p class="fineprint">Choose any card style. Any LPI player can redeem it regardless of their own style. Issued-card records remain saved here; the full code is shown when created.</p><div class="divider"></div>
+      <h3>Redeem a gift code</h3>
+      <form id="giftRedeemForm"><div class="field"><label>16-DIGIT CODE</label><input id="giftCode" inputmode="numeric" maxlength="16" placeholder="0000 0000 0000 0000" required></div><button type="submit" class="btn block">Redeem code</button></form>
+      <p class="fineprint">Any player can redeem a valid gift card regardless of their personal card style. Redeemed or expired codes cannot be used again.</p>
+     </div>
+    </div>
+    <div class="panel sectiongap"><div class="panelhead"><h2>Card styles</h2><span class="tag">FICTIONAL</span></div><div class="grid three">
+     <div class="stat"><span class="tag">LPI NEON</span><p class="fineprint">Teal / blue style for city players.</p></div>
+     <div class="stat"><span class="tag" style="color:#c1a8ff">LPI ROYAL</span><p class="fineprint">Purple style. Different from real card schemes.</p></div>
+     <div class="stat"><span class="tag" style="color:#ffb7cf">LPI AURA</span><p class="fineprint">Pink / gold style for city players.</p></div>
+    </div></div>
+   </section>
+
+   <section id="page-invest" class="page">
+    <div class="pagehead"><div><h1>Gold market & daily SIP</h1><p>A fictional market for your city game, not an investment product.</p></div><span class="tag gold">SIMULATED MARKET</span></div>
+    <div class="grid two">
+     <div class="panel">
+      <div class="panelhead"><h2>City gold price</h2><span class="tag gold">DEMO ONLY</span></div>
+      <div class="eyebrow">LPI COINS PER GOLD UNIT</div><div id="goldPrice" class="goldprice">100.00</div>
+      <svg class="chartline" viewBox="0 0 400 74" preserveAspectRatio="none" aria-label="Decorative sample price trend"><path d="M0 58 C25 45 34 54 58 40 S100 55 124 28 S162 44 188 32 S220 48 246 17 S280 29 305 21 S356 43 400 8" fill="none" stroke="#f5c96a" stroke-width="3" stroke-linecap="round"/><path d="M0 58 C25 45 34 54 58 40 S100 55 124 28 S162 44 188 32 S220 48 246 17 S280 29 305 21 S356 43 400 8 L400 74 L0 74Z" fill="#f5c96a" opacity=".07"/></svg>
+      <div id="goldUpdated" class="fineprint">Price changes randomly in the game every minute.</div>
+      <div class="divider"></div><div class="rowbetween"><div><div class="eyebrow">YOUR GOLD UNITS</div><strong id="goldUnits" style="font-size:22px">0.000</strong></div><button class="btn ghost small" id="refreshGold">Refresh quote ↻</button></div>
+      <form id="goldTradeForm" class="sectiongap">
+       <div class="formrow"><div class="field"><label>AMOUNT OF UNITS</label><input id="goldUnitsInput" type="number" min="0.001" max="10000" step="0.001" placeholder="0.100" required></div><div class="field"><label>ORDER TYPE</label><select id="goldSide"><option value="buy">Buy</option><option value="sell">Sell</option></select></div></div>
+       <button type="submit" class="btn gold block">Confirm simulated trade</button>
+      </form>
+     </div>
+     <div class="panel">
+      <div class="panelhead"><h2>Daily SIP plans</h2><span class="tag">10 / 20 / 30</span></div>
+      <p class="fineprint">Choose a game-coin amount that your city wallet contributes daily. The server processes the next due contribution when you open the app; it is not a bank or automatic real-money debit.</p>
+      <form id="sipForm">
+       <div class="field"><label>DAILY GAME-COIN CONTRIBUTION</label><select id="sipAmount"><option value="10">10 LPI / day</option><option value="20">20 LPI / day</option><option value="30">30 LPI / day</option></select></div>
+       <button class="btn primary block" type="submit">Start daily SIP</button>
+      </form>
+      <div class="divider"></div><div class="panelhead"><h3>Your plans</h3><span id="sipCount" class="tag">0 PLANS</span></div><div id="sipList" class="list"></div>
+     </div>
+    </div>
+   </section>
+
+   <section id="page-activity" class="page">
+    <div class="pagehead"><div><h1>Activity & bills</h1><p>Review game transfers, reminders and account updates.</p></div><span class="tag">LEDGER</span></div>
+    <div class="grid two">
+     <div class="panel"><div class="panelhead"><h2>Transaction history</h2><span class="tag">LATEST 18</span></div><div id="fullActivity" class="list"></div></div>
+     <div class="panel"><div class="panelhead"><h2>Your city bills</h2><span class="tag">NO SCREEN LOCKS</span></div><div id="fullBills" class="list"></div><p class="fineprint" style="margin-top:10px">A bill can be postponed once for 10 minutes. After its deadline, it is marked as overdue in LPI only. This app never locks the device.</p></div>
+    </div>
+    <div class="panel sectiongap"><div class="panelhead"><h2>Global city announcements</h2><span class="tag">ALL PLAYERS</span></div><div id="fullAnnouncements"></div></div>
+   </section>
+  </main>
+ </div>
+ <div class="footbrand" style="text-align:center;padding:0 12px 18px">Made by Gemaa · LPI City Money is a fictional game · Not affiliated with banks, UPI, RuPay or FamPay.</div>
+</div>
+
+<div id="adminModal" class="modal">
+ <div class="modalbox wide">
+  <div class="modalhead"><div><h2>City admin console</h2><div class="fineprint">Alt + T · Admin actions are server-checked.</div></div><button class="close" data-close="adminModal" type="button">×</button></div>
+  <div id="adminGate">
+   <form id="adminLoginForm"><div class="field"><label>ADMIN PASSWORD</label><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Enter admin password" required></div><button class="btn primary" type="submit">Unlock admin panel</button></form>
+   <p class="fineprint">The password is checked on the server, not in browser code.</p>
+  </div>
+  <div id="adminDashboard" class="hidden">
+   <div class="grid three">
+    <div class="panel"><h3>Give game coins</h3><form id="adminGrantForm"><div class="field"><label>PLAYER</label><select id="grantUser" required></select></div><div class="field"><label>AMOUNT</label><input id="grantAmount" type="number" min="1" required placeholder="500"></div><div class="field"><label>REASON</label><input id="grantNote" maxlength="120" placeholder="City reward"></div><button class="btn primary block" type="submit">Grant coins</button></form></div>
+    <div class="panel"><h3>Create a game bill</h3><form id="adminBillForm"><div class="field"><label>PLAYER</label><select id="billUser" required></select></div><div class="field"><label>AMOUNT</label><input id="billAmount" type="number" min="1" required placeholder="200"></div><div class="field"><label>DESCRIPTION</label><input id="billMemo" maxlength="120" placeholder="City market fee"></div><button class="btn block" type="submit">Issue bill</button></form></div>
+    <div class="panel"><h3>Global announcement</h3><form id="adminAnnounceForm"><div class="field"><label>MESSAGE</label><input id="adminMessage" maxlength="250" required placeholder="Hello city players!"></div><button class="btn block" type="submit">Post announcement</button></form></div>
+   </div>
+   <div class="grid two sectiongap">
+    <div class="panel"><h3>Sandbox app API key</h3><form id="adminApiForm"><div class="field"><label>APP LABEL</label><input id="apiLabel" maxlength="60" value="Fry Trading"></div><div class="field"><label>PERMISSIONS</label><div class="selection-row"><label class="checkpill"><input type="checkbox" value="balance" checked>Balance read</label><label class="checkpill"><input type="checkbox" value="deposit" checked>Deposit game coins</label><label class="checkpill"><input type="checkbox" value="withdraw" checked>Withdraw game coins</label><label class="checkpill"><input type="checkbox" value="player_lookup" checked>Player lookup (public ID)</label></div></div><button class="btn primary block" type="submit">Create sandbox API key</button></form><div id="apiKeyCreated" class="hidden sectiongap"></div><div class="divider"></div><h3>Existing keys</h3><div id="apiKeysList" class="list"></div></div>
+    <div class="panel"><div class="panelhead"><h3>All city players</h3><button id="refreshAdmin" class="btn ghost small" type="button">Refresh ↻</button></div><div id="adminUserTable" class="tablewrap"></div></div>
+   </div>
+   <div class="sectiongap"><div class="grid two sectiongap">
+     <div class="panel"><div class="panelhead"><h3>Global Spin reward rules</h3><span class="tag gold">ALL PLAYERS</span></div>
+      <form id="adminSpinForm"><div class="field"><label>SPIN WHEEL AVAILABILITY</label><label class="checkpill"><input id="spinEnabled" type="checkbox"> Activate daily spin for all players</label></div><div class="field"><label>COIN PRIZES · COMMA SEPARATED</label><input id="spinCoins" value="10,20,30" required placeholder="10,20,30"></div>
+       <div class="field"><label>NEXT-TRANSFER CASHBACK COUPON · % (0 TO DISABLE)</label><input id="spinCashbackPct" type="number" min="0" max="50" step="1" value="20" required></div>
+       <div class="field"><label>FREE VIP MINUTES · (0 TO DISABLE)</label><input id="spinVipMinutes" type="number" min="0" max="1440" step="1" value="10" required></div>
+       <button class="btn primary block" type="submit">Save global spin rewards</button></form><p class="fineprint">Changes apply globally to new spins. Every prize is LPI game-only and has no cash value.</p>
+     </div>
+     <div class="panel"><div class="panelhead"><h3>Send a media card</h3><span class="tag">PHOTO / MP4</span></div>
+      <form id="adminMediaForm"><div class="field"><label>PLAYER</label><select id="mediaUser" required></select></div>
+       <div class="field"><label>CARD TITLE</label><input id="mediaTitle" maxlength="80" placeholder="Birthday card, city news..." required></div>
+       <div class="field"><label>PHOTO OR MP4 VIDEO · MAX 4 MB</label><input id="mediaFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4" required></div>
+       <button class="btn primary block" type="submit">Upload and send card</button></form>
+      <div id="mediaCreated" class="hidden sectiongap"></div><p class="fineprint">Only JPG, PNG, WebP or MP4 files are accepted. Don't upload private or sensitive media.</p>
+     </div>
+    </div>
+    <button id="adminExit" class="btn danger small" type="button">Lock admin console</button></div>
+   <p class="fineprint" style="margin-top:12px">Sandbox only: connected apps can read or change LPI game coins only, never real rupees or bank balances. Do not ask users for real card numbers, CVVs, or expiry dates; this is not a payment processor. Keep API keys on a trusted backend and grant only the scopes the app needs.</p>
+  </div>
+ </div>
+</div>
+
+<div id="receiptModal" class="modal">
+ <div class="modalbox receipt-modal"><div class="receipt-confetti" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="receipt-mark"><svg viewBox="0 0 44 44"><path d="M11 22.5 18.5 30 33 14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <h2 id="receiptTitle">Payment complete</h2><p id="receiptSubtitle" class="muted">Your city game transfer is recorded.</p><div id="receiptRows" class="receipt-rows"></div><div id="receiptRef" class="receipt-ref mono"></div>
+  <div class="formrow sectiongap"><button id="receiptCopy" class="btn block" type="button">Copy receipt</button><button class="btn primary block" data-close="receiptModal" type="button">Done</button></div><p class="fineprint receipt-disclaimer">Game receipt only · no real money or payment network was used.</p>
+ </div>
+</div>
+<div id="updateModal" class="modal"><div class="modalbox update-modal">
+ <div class="pixel-stage" aria-hidden="true"><div class="pixel-runner"><i></i><b></b><em></em></div><span class="pixel-coin coin-one">L</span><span class="pixel-coin coin-two">L</span><span class="pixel-coin coin-three">L</span><span class="pixel-spark spark-one"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="currentColor"/></svg></span><span class="pixel-spark spark-two"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></div>
+ <span class="tag">LPI · UPDATE CENTER</span><h2 id="updateTitle">Checking for updates…</h2><p id="updateNotes" class="muted">Checking for the latest compatible build.</p><div id="updateVersionTag" class="update-version">Installed · v0.4.0</div>
+ <div id="updateProgress" class="update-progress hidden"><div id="updateProgressFill"></div></div><p id="updateProgressText" class="tiny muted hidden"></p><p id="updateMessage" class="fineprint">Updates are checked inside LPI. No browser page is opened.</p>
+ <button id="updateDownloadBtn" class="btn primary block" type="button">Download update</button><button id="updateRestartBtn" class="btn block hidden" type="button">Show downloaded file</button><button class="btn ghost block sectiongap" data-close="updateModal" type="button">Not now</button>
+ <p class="fineprint">The update downloads to your device without opening a browser page. Windows: run the installer after download. Android: approve installation of the APK when prompted. This app never installs updates silently.</p>
+</div></div>
+<div id="paymentConfirmModal" class="modal"><div class="modalbox payment-confirm-box"><div class="payment-confirm-top"><div class="payment-confirm-logo"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tag">LPI GAME TRANSFER</span></div><h2>Review payment</h2><p class="muted">Check the player and amount before confirming. No bank or UPI rail is used.</p><div class="payment-review-card"><div class="fineprint">SENDING TO</div><strong id="confirmPayee">Player</strong><div class="fineprint">GAME COINS</div><div id="confirmAmount" class="confirm-amount">LPI 0</div><div class="payment-play-label">PLAY MONEY · NOT REAL RUPEES</div></div><label class="swipe-label" for="paySwipe">Slide to pay</label><div class="swipe-track"><span id="paySwipeIcon" class="swipe-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><input id="paySwipe" aria-label="Slide to confirm simulated payment" type="range" min="0" max="100" value="0"><span id="paySwipeText">SLIDE TO CONFIRM</span></div><button id="tapPayNow" class="btn primary block sectiongap" type="button">Tap to pay instead</button><button class="btn ghost block sectiongap" data-close="paymentConfirmModal" type="button">Cancel</button><p class="fineprint">Optional device biometrics may be requested. Never enter a real payment PIN here.</p></div></div><div id="scannerModal" class="modal"><div class="modalbox" style="width:min(420px,100%)"><div class="modalhead"><h2>Scan city payment QR</h2><button class="close" data-close="scannerModal" type="button">×</button></div><div id="reader" style="width:100%;max-width:340px;margin:auto"></div><p class="fineprint">Camera permission may be required. You can also enter the six-digit code manually.</p></div></div>
+<div id="toast" class="toast"></div>
+<script>
+(function(){
+"use strict";
+const CONFIG={url:"https://zyoyxjagyglngrlbnkwb.supabase.co",key:"sb_publishable_fuo-IUrFSiQ5UEbSsA45jw_-WIVFgrl"};
+const APP_VERSION="0.4.0";const RELEASE_API="https://api.github.com/repos/GemaaOfficials/Gemaa/releases/latest";
+const $=function(id){return document.getElementById(id)};
+const state={mode:"signup",token:localStorage.getItem("lpi_token")||"",adminToken:"",user:null,data:null,showCard:false,payRequest:null,requestCode:"",scanner:null,adminUsers:[],apiKeys:[],spinRewardConfig:[],updateRelease:null,updateCheckStatus:"idle",lastDownloadedAsset:null,lastReceipt:"",pendingTransfer:null,transferPending:false,spinEnabled:false};
+function esc(value){return String(value==null?"":value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function money(value){return "LPI "+Number(value||0).toLocaleString("en-IN")}
+function dateText(value){if(!value)return "";const d=new Date(value);return d.toLocaleString([], {month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}
+function onlyDate(value){if(!value)return "";const d=new Date(value);return d.toLocaleDateString([], {month:"short",day:"numeric",year:"numeric"})}
+function toast(message,type){const el=$("toast");el.textContent=message;el.className="toast show "+(type||"");clearTimeout(toast.t);toast.t=setTimeout(function(){el.className="toast"},3500)}
+function busy(button,on,label){if(!button)return;if(on){button.dataset.label=button.innerHTML;button.disabled=true;button.innerHTML='<span class="spinner"></span> Please wait'}else{button.disabled=false;button.innerHTML=button.dataset.label||label||"Done"}}
+async function api(action,payload){
+ const data=Object.assign({},payload||{},{action:action,appVersion:APP_VERSION});
+ if(state.token && !data.token)data.token=state.token;
+ const response=await fetch(CONFIG.url+"/functions/v1/lpi-api",{method:"POST",headers:{"Content-Type":"application/json","apikey":CONFIG.key,"Authorization":"Bearer "+(state.token||CONFIG.key)},body:JSON.stringify(data)});
+ let result={};try{result=await response.json()}catch(e){}
+ if(!response.ok)throw new Error(result.error||"Server request failed.");
+ return result;
+}
+
+function showReceipt(title,subtitle,rows,reference){
+ reference=reference||("LPI-"+Date.now().toString(36).toUpperCase());
+ state.lastReceipt=title+"\n"+subtitle+"\n"+rows.map(function(r){return r.label+": "+r.value}).join("\n")+"\nReference: "+reference+"\nFictional LPI game receipt only.";
+ $("receiptTitle").textContent=title;$("receiptSubtitle").textContent=subtitle;
+ $("receiptRows").innerHTML=rows.map(function(r){return '<div class="receipt-row"><span>'+esc(r.label)+'</span><strong>'+esc(r.value)+'</strong></div>'}).join("");
+ $("receiptRef").textContent="REFERENCE · "+reference;openModal("receiptModal");
+}
+function renderMediaCards(items){
+ const box=$("mediaCardGallery");if(!box)return;
+ if(!items.length){box.innerHTML='<div class="empty" style="grid-column:1/-1">No city cards have been sent to you yet.</div>';return}
+ box.innerHTML=items.map(function(card){
+  const media=card.content_type==="video/mp4"?'<video controls playsinline preload="metadata" src="'+esc(card.media_url)+'"></video>':'<img loading="lazy" alt="'+esc(card.title)+'" src="'+esc(card.media_url)+'">';
+  return '<article class="media-card"><div class="media-visual">'+media+'</div><div class="media-card-copy"><strong>'+esc(card.title)+'</strong><small>'+esc(dateText(card.created_at))+'</small></div></article>';
+ }).join("");
+}
+function renderAdminSpinConfig(){
+  if($("spinEnabled"))$("spinEnabled").checked=state.spinEnabled;
+ const rewards=state.spinRewardConfig||[],coins=rewards.filter(function(x){return x.type==="coins"}).map(function(x){return x.amount}),cash=rewards.find(function(x){return x.type==="cashback"}),vip=rewards.find(function(x){return x.type==="vip"});
+ if(coins.length)$("spinCoins").value=coins.join(",");
+ $("spinCashbackPct").value=cash?cash.amount:0;$("spinVipMinutes").value=vip?vip.amount:0;
+ $("spinPrizeList").innerHTML=rewards.map(function(x){
+  const desc=x.type==="coins"?"Added to your LPI game balance":x.type==="cashback"?"One-use coupon for next simulated transfer":"Animated VIP crown pass";
+  return '<div class="listitem"><div class="itemicon">'+(x.type==="coins"?'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15 8.5c-.7-.7-1.7-1-3-1-1.7 0-3 .8-3 2s1.3 2 3 2 3 .8 3 2-1.3 2-3 2c-1.2 0-2.3-.4-3-1.1M12 6v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>':x.type==="cashback"?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19M7 5h.01M17 19h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4 3 5-7 5 7 4-3-2 10H5zM6 21h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>')+'</div><div class="itemtext"><strong>'+esc(x.label)+'</strong><small>'+desc+'</small></div><div class="itemamount"><small>weight '+esc(x.weight)+'</small></div></div>';
+ }).join("")||'<div class="empty">No rewards configured.</div>';
+}
+function renderGiftCardHistory(items){
+ const box=$("giftCardHistory");if(!box)return;
+ if(!items||!items.length){box.innerHTML='<div class="empty">Your issued gift cards will appear here.</div>';return}
+ box.innerHTML='<div class="panelhead"><h3>Your issued gift cards</h3><span class="tag">'+items.length+' SAVED</span></div>'+items.map(function(card){
+  const expired=new Date(card.expires_at).getTime()<Date.now()&&!card.redeemed_at,status=card.redeemed_at?"REDEEMED":expired?"EXPIRED":"READY TO REDEEM",klass=card.redeemed_at||expired?"tag":"tag gold",code=String(card.code_display||"");
+  return '<div class="listitem"><div class="itemicon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M7 14h4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div><div class="itemtext"><strong>'+money(card.amount)+' · '+esc(card.card_brand)+'</strong><small>Created '+esc(dateText(card.created_at))+' · Expires '+esc(onlyDate(card.expires_at))+'</small><small class="mono" style="display:block;margin-top:6px;letter-spacing:1px">'+(code?esc(code.replace(/(\d{4})(?=\d)/g,"$1 ")):"Code history unavailable for this older card")+'</small>'+(code&&!card.redeemed_at&&!expired?'<button class="btn small" type="button" data-action="copy" data-text="'+esc(code)+'" style="margin-top:7px">Copy gift code</button>':'')+'</div><span class="'+klass+'">'+status+'</span></div>';
+ }).join("");
+}
+function renderPersonalQr(){const qr=$("personalPayQr");if(!qr||!state.user)return;const payload="lpi://payto/"+encodeURIComponent(state.user.name||"");$("personalPayCode").textContent=state.user.name||"PLAYER";qr.innerHTML="";if(typeof QRCode!=="undefined")new QRCode(qr,{text:payload,width:160,height:160,colorDark:"#25163d",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});else qr.innerHTML='<div style="color:#26193d;padding:10px;text-align:center">QR unavailable. Share this pay code:<br><b>'+esc(payload)+'</b></div>'}
+function biometricCredentialId(){return localStorage.getItem("lpi_bio_credential")||""}
+function fromB64url(v){const b64=v.replace(/-/g,"+").replace(/_/g,"/")+"===".slice((v.length+3)%4);return Uint8Array.from(atob(b64),c=>c.charCodeAt(0))}
+function toB64url(buf){return btoa(String.fromCharCode.apply(null,new Uint8Array(buf))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function randomChallenge(){const a=new Uint8Array(32);crypto.getRandomValues(a);return a}
+async function biometricAvailable(){try{return Boolean(window.isSecureContext&&window.PublicKeyCredential&&navigator.credentials&&await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())}catch(e){return false}}
+async function setupBiometric(){if(!await biometricAvailable()){toast("This device or app context does not expose a platform biometric authenticator. Slide-to-pay still works.","error");return}try{const uid=new Uint8Array(16);crypto.getRandomValues(uid);const c=await navigator.credentials.create({publicKey:{challenge:randomChallenge(),rp:{name:"LPI City Money",id:location.hostname||"localhost"},user:{id:uid,name:String(state.user&&state.user.name||"lpi-player"),displayName:String(state.user&&state.user.name||"LPI Player")},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],authenticatorSelection:{authenticatorAttachment:"platform",residentKey:"required",userVerification:"required"},timeout:60000,attestation:"none"}});if(!c)throw Error("Setup was cancelled.");localStorage.setItem("lpi_bio_credential",toB64url(c.rawId));updateBiometricStatus();toast("Device verification enabled","success")}catch(e){toast("Biometric setup unavailable: "+(e.message||"try another device"),"error")}}
+async function verifyBiometric(){const id=biometricCredentialId();if(!id)return true;if(!await biometricAvailable())throw Error("Saved device verification is not available here. Use the original device or remove this local setting.");const c=await navigator.credentials.get({publicKey:{challenge:randomChallenge(),rpId:location.hostname||"localhost",allowCredentials:[{type:"public-key",id:fromB64url(id)}],userVerification:"required",timeout:60000}});if(!c)throw Error("Device verification was cancelled.");return true}
+function updateBiometricStatus(){const enabled=Boolean(biometricCredentialId()),s=$("bioStatus"),b=$("bioSetupBtn");if(s)s.textContent=enabled?"Device verification is enabled. Your OS may use fingerprint, face unlock, or passcode.":"Optional. Your device may use fingerprint, face unlock, or its system passcode.";if(b)b.textContent=enabled?"Device verification enabled · reset":"Set up device fingerprint / biometric"}
+async function settleTransfer(){if(state.transferPending||!state.pendingTransfer)return;state.transferPending=true;const b=$("tapPayNow"),s=$("paySwipe");b.disabled=true;s.disabled=true;try{if(biometricCredentialId())await verifyBiometric();const p=state.pendingTransfer,r=await api("transfer",{toName:p.toName,amount:p.amount,method:p.method});toast("Paid "+money(r.result.amount)+" LPI game coins to "+r.receiver+".","success");closeModal("paymentConfirmModal");showReceipt("Payment complete","Your LPI game transfer was recorded.",[{label:"Paid to",value:r.receiver},{label:"Transfer amount",value:money(r.result.amount)+" LPI game coins"},{label:"Your debit",value:money(r.result.debit||p.amount)+" LPI game coins"},{label:"VIP discount",value:money(r.result.discount||0)+" LPI game coins"},{label:"Cashback",value:money(r.result.cashback||0)+" LPI game coins"}],r.result.transfer_id||("LPI-"+Date.now().toString(36).toUpperCase()));$("sendAmount").value="";state.pendingTransfer=null;await refreshDashboard()}catch(e){toast(e.message,"error");s.value="0";s.disabled=false;b.disabled=false;$("paySwipeIcon").style.left="5px"}finally{state.transferPending=false;b.disabled=false;s.disabled=false}}
+function openPaymentReview(name,amount,method){if(!name||!Number.isSafeInteger(amount)||amount<1){toast("Enter a player name and valid positive game-coin amount.","error");return}state.pendingTransfer={toName:name,amount:amount,method:method||"direct"};$("confirmPayee").textContent=name;$("confirmAmount").textContent=money(amount);$("paySwipe").value="0";$("paySwipe").disabled=false;$("paySwipeIcon").style.left="5px";$("paySwipeText").textContent="SLIDE TO CONFIRM";$("tapPayNow").disabled=false;openModal("paymentConfirmModal")}
+
+function versionParts(value){return String(value||"0").replace(/^lpi-v/i,"").replace(/^v/i,"").split(/[.+-]/).slice(0,3).map(function(n){const x=parseInt(n,10);return Number.isFinite(x)?x:0})}
+function isNewerVersion(latest,current){const a=versionParts(latest),b=versionParts(current);for(let i=0;i<3;i++){if(a[i]>b[i])return true;if(a[i]<b[i])return false}return false}
+function targetUpdateAsset(release){
+ const assets=Array.isArray(release&&release.assets)?release.assets:[];
+ const android=/Android/i.test(navigator.userAgent);
+ return android
+  ?assets.find(function(a){return /\.apk$/i.test(a.name)})
+  :assets.find(function(a){return /\.exe$/i.test(a.name)})||assets.find(function(a){return /\.zip$/i.test(a.name)});
+}
+function setUpdateProgress(percent,detail){
+ const bar=$("updateProgressFill"),text=$("updateProgressText");
+ if(bar)bar.style.width=Math.max(0,Math.min(100,percent))+"%";
+ if(text)text.textContent=detail||Math.round(percent)+"%";
+}
+function setUpdateCurrentState(title,message,buttonText){
+ $("updateTitle").textContent=title;
+ $("updateNotes").textContent=message;
+ $("updateVersionTag").textContent="Installed · v"+APP_VERSION;
+ $("updateDownloadBtn").textContent=buttonText||"Check again";
+ $("updateDownloadBtn").classList.remove("hidden");
+ $("updateDownloadBtn").disabled=false;
+ $("updateRestartBtn").classList.add("hidden");
+ $("updateProgress").classList.add("hidden");
+ $("updateMessage").textContent="";
+}
+async function checkForUpdates(){
+ state.updateRelease=null;state.updateCheckStatus="checking";
+ $("updateBanner").classList.add("hidden");$("updateProgress").classList.add("hidden");$("updateProgressText").classList.add("hidden");$("updateMessage").textContent="";
+ try{
+  const response=await fetch(RELEASE_API,{headers:{Accept:"application/vnd.github+json"},cache:"no-store"});
+  if(response.status===404){state.updateCheckStatus="current";return false}
+  if(!response.ok)throw new Error("Release check returned "+response.status);
+  const release=await response.json(),tag=String(release.tag_name||"").replace(/^lpi-v/i,"").replace(/^v/i,"");
+  const asset=targetUpdateAsset(release);
+  if(!tag||!isNewerVersion(tag,APP_VERSION)||!asset){
+   state.updateCheckStatus="current";return false;
+  }
+  state.updateRelease=release;state.lastDownloadedAsset=asset;state.updateCheckStatus="available";
+  $("updateBannerVersion").textContent="v"+tag;
+  $("updateBanner").classList.remove("hidden");
+  $("updateTitle").textContent="Update ready · v"+tag;
+  $("updateNotes").textContent=String(release.body||"A new build with improvements and fixes is ready.").slice(0,500);
+  $("updateVersionTag").textContent="Installed · v"+APP_VERSION+"   →   Available · v"+tag;
+  $("updateDownloadBtn").textContent="Download update";
+  $("updateDownloadBtn").classList.remove("hidden");
+  $("updateDownloadBtn").disabled=false;
+  return true;
+ }catch(e){
+  state.updateCheckStatus="error";return false;
+ }
+}
+async function showUpdateModal(){
+ openModal("updateModal");
+ $("updateTitle").textContent="Checking for updates…";
+ $("updateNotes").textContent="Checking the latest compatible release for this device.";
+ $("updateVersionTag").textContent="Installed · v"+APP_VERSION;
+ $("updateDownloadBtn").textContent="Checking…";
+ $("updateDownloadBtn").disabled=true;
+ $("updateDownloadBtn").classList.remove("hidden");
+ const available=await checkForUpdates();
+ if(available)return;
+ if(state.updateCheckStatus==="current"){
+  setUpdateCurrentState("You're up to date","You're running the latest LPI build available for this device. No update download is needed.","Check again");
+ }else{
+  setUpdateCurrentState("Update check unavailable","Couldn't reach the update service right now. Your installed app is still available; try checking again when you're online.","Try again");
+ }
+}
+async function downloadAssetInRenderer(asset){
+ const response=await fetch(asset.browser_download_url,{cache:"no-store"});
+ if(!response.ok)throw new Error("The update file could not be downloaded ("+response.status+").");
+ const total=Number(response.headers.get("content-length"))||0;
+ let received=0,chunks=[];
+ if(response.body&&response.body.getReader){
+  const reader=response.body.getReader();
+  while(true){
+   const item=await reader.read();if(item.done)break;
+   chunks.push(item.value);received+=item.value.byteLength;
+   const pct=total?received/total*100:0;
+   setUpdateProgress(pct,total?(Math.round(pct)+"% · "+(received/1048576).toFixed(1)+" MB"):(received/1048576).toFixed(1)+" MB downloaded");
+  }
+ }else{
+  const blob=await response.blob();chunks=[blob];received=blob.size;setUpdateProgress(100,"Download prepared");
+ }
+ const blob=new Blob(chunks,{type:asset.content_type||"application/octet-stream"});
+ const objectUrl=URL.createObjectURL(blob),link=document.createElement("a");
+ link.href=objectUrl;link.download=asset.name||"LPI-update";
+ document.body.appendChild(link);link.click();link.remove();
+ setTimeout(function(){URL.revokeObjectURL(objectUrl)},60000);
+ return {filename:asset.name||"LPI-update"};
+}
+async function startUpdateFlow(){
+ const button=$("updateDownloadBtn");
+ if(state.updateCheckStatus==="current"||state.updateCheckStatus==="error"||!state.updateRelease){
+  button.disabled=true;button.textContent="Checking…";
+  const available=await checkForUpdates();
+  if(!available){
+   if(state.updateCheckStatus==="current")setUpdateCurrentState("You're up to date","You're running the latest LPI build available for this device. No update download is needed.","Check again");
+   else setUpdateCurrentState("Update check unavailable","Couldn't reach the update service right now. Check your connection and try again.","Try again");
+   button.disabled=false;return;
+  }
+ }
+ const release=state.updateRelease,asset=state.lastDownloadedAsset||targetUpdateAsset(release);
+ if(!asset||!asset.browser_download_url){
+  state.updateCheckStatus="current";
+  setUpdateCurrentState("No update for this device","No compatible installer is attached to the latest published build. Your installed version is unchanged.","Check again");return;
+ }
+ button.disabled=true;button.textContent="Downloading…";
+ $("updateProgress").classList.remove("hidden");$("updateProgressText").classList.remove("hidden");$("updateMessage").textContent="Downloading securely inside LPI. Keep the app open until it completes.";
+ setUpdateProgress(0,"Starting download…");
+ try{
+  let result;
+  if(window.lpiUpdater&&typeof window.lpiUpdater.downloadReleaseAsset==="function"){
+   const stop=window.lpiUpdater.onProgress(function(progress){
+    const total=Number(progress.total)||0,received=Number(progress.received)||0;
+    const pct=Number.isFinite(progress.percent)?progress.percent:(total?received/total*100:0);
+    setUpdateProgress(pct,total?(Math.round(pct)+"% · "+(received/1048576).toFixed(1)+" / "+(total/1048576).toFixed(1)+" MB"):(received/1048576).toFixed(1)+" MB downloaded");
+   });
+   try{result=await window.lpiUpdater.downloadReleaseAsset(asset.browser_download_url,asset.name)}finally{if(typeof stop==="function")stop()}
+  }else{
+   result=await downloadAssetInRenderer(asset);
+  }
+  setUpdateProgress(100,"100% · Complete");
+  $("updateMessage").textContent="Saved "+result.filename+". Install it to update LPI; Android may ask you to approve APK installation.";
+  button.textContent="Download again";button.disabled=false;
+  if(window.lpiUpdater&&typeof window.lpiUpdater.showDownloadedFile==="function"){ $("updateRestartBtn").textContent="Show downloaded file";$("updateRestartBtn").classList.remove("hidden"); } else { $("updateRestartBtn").classList.add("hidden"); }
+  state.updateCheckStatus="downloaded";
+ }catch(e){
+  $("updateMessage").textContent="Download failed: "+String(e&&e.message||e)+" Try again when connected.";
+  button.textContent="Try download again";button.disabled=false;
+ }
+}
+
+function setMode(mode){state.mode=mode;document.querySelectorAll("[data-authmode]").forEach(function(b){b.classList.toggle("active",b.dataset.authmode===mode)});$("authTitle").textContent=mode==="signup"?"Create your account":"Welcome back";$("authSub").textContent=mode==="signup"?"Choose your player name and password.":"Log in to your existing city account.";$("authSubmit").innerHTML=mode==="signup"?"Create city account <span>→</span>":"Log in to LPI <span>→</span>";$("authError").textContent="";$("authPassword").autocomplete=mode==="signup"?"new-password":"current-password"}
+document.querySelectorAll("[data-authmode]").forEach(function(b){b.addEventListener("click",function(){setMode(b.dataset.authmode)})});
+$("authForm").addEventListener("submit",async function(ev){ev.preventDefault();const btn=$("authSubmit");busy(btn,true);$("authError").textContent="";try{const result=await api(state.mode,{name:$("authName").value,password:$("authPassword").value});state.token=result.token;state.user=result.user;localStorage.setItem("lpi_token",state.token);$("authPassword").value="";await enterApp()}catch(e){$("authError").textContent=e.message;toast(e.message,"error")}finally{busy(btn,false)}});
+async function enterApp(){ $("authScreen").classList.add("hidden");$("appShell").classList.add("ready");$("buildBadge").textContent="v"+APP_VERSION;await refreshDashboard();checkForUpdates(); }
+async function refreshDashboard(){try{const d=await api("dashboard");state.data=d;state.user=d.user;renderDashboard()}catch(e){toast(e.message,"error");if(/Session expired|sign in again/i.test(e.message)){signOut(true)}}}
+function styleClass(brand){return brand==="LPI ROYAL"?"royal":brand==="LPI AURA"?"aura":""}
+function cardHtml(card,owner){
+ if(!card)return '<div class="empty">Your LPI game card will appear after account setup.</div>';
+ const id=String(card.card_id||"LPI-PENDING");
+ const expiry=String(card.exp_month||1).padStart(2,"0")+"/"+String(card.exp_year||2028).slice(-2);
+ return '<div class="virtual-card lpi-card-modern"><div class="cardtop"><div><div class="cardnote">LPI CITY · GAME ACCESS</div><div class="cardname">PLAYER CARD</div></div><div class="cardlogo" aria-hidden="true">✦</div></div><div class="cardnumber mono">'+esc(id)+'</div><div class="cardbottom"><div><label>VALID UNTIL</label><strong>'+expiry+'</strong></div><div><label>NETWORK</label><strong>GAME ONLY</strong></div><div class="owner"><label>PLAYER</label><strong>'+esc(owner||"LPI PLAYER")+'</strong></div></div><div class="cardwatermark">LPI</div></div>';
+}
+function renderDashboard(){const d=state.data;if(!d)return;const u=d.user;state.user=u;state.spinEnabled=Boolean(d.spinEnabled);$("helloName").textContent=u.name;$("userBadge").innerHTML=esc(u.name)+(u.isVip?'<span class="vip-crown" aria-label="VIP"><svg viewBox="0 0 24 24"><path d="M3 7.5 7.1 11l4.9-7 4.9 7L21 7.5 19 18H5z" fill="currentColor"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>':"");$("vipBadge").classList.toggle("hidden",!u.isVip);$("balanceValue").innerHTML=money(u.balance)+' <span class="coin">LPI</span>';$("cardMini").innerHTML=cardHtml(d.card,u.name);$("cardLarge").innerHTML=cardHtml(d.card,u.name);$("statSent").textContent=(d.transfers||[]).filter(function(t){return t.from_user&&t.from_user.display_name===u.name}).length;$("statBills").textContent=(d.bills||[]).length;$("statGold").textContent=Number(d.gold.units||0).toFixed(3);$("goldPrice").textContent=money(Number(d.gold.price||100).toFixed(2));$("goldUpdated").textContent="Updated "+dateText(d.gold.updatedAt)+" · random game-only price movement";$("goldUnits").textContent=Number(d.gold.units||0).toFixed(3);renderActivity(d.transfers||[],"homeActivity");renderActivity(d.transfers||[],"fullActivity");renderAnnouncements(d.announcements||[],"homeAnnouncements");renderAnnouncements(d.announcements||[],"fullAnnouncements");renderBills(d.bills||[],"homeBills");renderBills(d.bills||[],"fullBills");renderRequests(d.pendingRequests||[]);renderSips(d.sips||[]);renderMediaCards(d.mediaCards||[]);renderGiftCardHistory(d.giftCards||[]);renderPersonalQr();updateBiometricStatus();$("spinBtn").disabled=!d.spinEnabled||Boolean(d.spinUsedToday);$("spinBtn").textContent=!d.spinEnabled?"Spin unavailable · Admin has paused it":d.spinUsedToday?"Today’s spin used · Come back tomorrow":"Spin today’s reward";$("spinStatus").textContent=!d.spinEnabled?"The city admin has not activated the daily spin yet.":d.spinUsedToday?"You have already claimed today’s reward. The wheel resets on the next UTC day.":"Your daily spin is ready.";if(Number(u.nextPaymentCashbackPercent||0)>0)$("spinStatus").textContent+=" Cashback coupon queued: "+u.nextPaymentCashbackPercent+"% on your next simulated transfer."; }
+function renderActivity(items,id){const box=$(id);if(!items.length){box.innerHTML='<div class="empty">Nothing here yet. Make your first city payment.</div>';return}box.innerHTML=items.slice(0,id==="fullActivity"?18:5).map(function(t){let incoming=t.to_user&&t.to_user.display_name===state.user.name;let title=incoming?"From "+(t.from_user?t.from_user.display_name:"City system"):"To "+(t.to_user?t.to_user.display_name:(t.note||"City system"));if(t.payment_method==="admin-grant")title="City admin reward";if(t.payment_method==="vip-purchase")title="VIP membership";if(t.payment_method==="gift-card-create")title="Gift card created";if(t.payment_method==="gift-card-redeem")title="Gift card redeemed";if(t.payment_method==="sip-contribution")title="Daily SIP contribution";if(t.payment_method==="gold-buy")title="Gold purchase";if(t.payment_method==="gold-sell")title="Gold sale";if(t.payment_method==="bill-payment")title="City bill paid";if(t.payment_method==="api-deposit")title="Sandbox API deposit";if(t.payment_method==="api-withdraw")title="Sandbox API withdrawal";const sign=incoming?"+":(t.from_user&&t.from_user.display_name===state.user.name?"−":(t.payment_method==="admin-grant"?"+" : ""));const color=(incoming||t.payment_method==="admin-grant"||t.payment_method==="gift-card-redeem"||t.payment_method==="gold-sell"||t.payment_method==="api-deposit")?"var(--mint)":"var(--text)";return '<div class="listitem"><div class="itemicon">'+(incoming?"↓":(t.payment_method==="vip-purchase"?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4 3 5-7 5 7 4-3-2 10H5zM6 21h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>'))+'</div><div class="itemtext"><strong>'+esc(title)+'</strong><small>'+esc(t.payment_method||"city payment")+' · '+esc(dateText(t.created_at))+'</small></div><div class="itemamount" style="color:'+color+'">'+sign+money(t.amount)+' LPI'+(Number(t.cashback)>0?'<small>+'+money(t.cashback)+' cashback</small>':"")+'</div></div>'}).join("")}
+function renderAnnouncements(items,id){const box=$(id);if(!items.length){box.innerHTML='<div class="empty">No announcements yet.</div>';return}box.innerHTML=items.slice(0,id==="fullAnnouncements"?12:4).map(function(a){const label=a.kind==="vip"?"VIP PURCHASE":a.kind==="admin"?"CITY ADMIN":"CITY NEWS";return '<div class="announce"><div class="annmeta"><span class="tag '+(a.kind==="vip"?"gold":"")+'">'+label+'</span><time>'+esc(dateText(a.created_at))+'</time></div><p>'+esc(a.message)+'</p></div>'}).join("")}
+function billIsOverdue(b){return b.status!=="paid"&&new Date(b.due_at).getTime()<Date.now()}
+function renderBills(items,id){const box=$(id);if(!items.length){box.innerHTML='<div class="empty">You have no unpaid city bills.</div>';return}box.innerHTML=items.map(function(b){const overdue=billIsOverdue(b);const status=overdue?"OVERDUE":String(b.status||"open").toUpperCase();return '<div class="listitem"><div class="itemicon">'+(overdue?"!":"▤")+'</div><div class="itemtext"><strong>'+esc(b.memo)+'</strong><small>Due '+esc(dateText(b.due_at))+' · <span class="'+(overdue?"dangertext":"")+'">'+status+'</span></small></div><div class="itemamount">'+money(b.amount)+' LPI'+(b.postponed_once?'':'<small><button class="btn ghost small" data-action="postpone-bill" data-id="'+esc(b.id)+'">+10 min</button></small>')+'<small><button class="btn primary small" data-action="pay-bill" data-id="'+esc(b.id)+'">Pay bill</button></small></div></div>'}).join("")}
+function renderRequests(items){const box=$("incomingRequests");if(!items.length){box.innerHTML='<div class="empty">No active incoming requests.</div>';return}box.innerHTML=items.map(function(r){return '<div class="listitem"><div class="itemicon">↙</div><div class="itemtext"><strong>Receive '+money(r.amount)+' LPI</strong><small>Expires '+esc(dateText(r.expires_at))+'</small></div><div class="itemamount"><small>Request created</small></div></div>'}).join("")}
+function renderSips(items){$("sipCount").textContent=items.filter(function(x){return x.active}).length+" PLANS";const box=$("sipList");if(!items.length){box.innerHTML='<div class="empty">No SIP plans yet. Start with 10, 20 or 30 game coins/day.</div>';return}box.innerHTML=items.map(function(s){return '<div class="listitem"><div class="itemicon">'+(s.active?"↻":"Ⅱ")+'</div><div class="itemtext"><strong>'+money(s.amount)+' LPI / day</strong><small>Invested: '+money(s.total_contributed)+' · Next due '+esc(onlyDate(s.next_due_date))+(s.missed_payments?' · Missed '+s.missed_payments:'')+'</small></div><div class="itemamount">'+(s.active?'<button class="btn ghost small" data-action="cancel-sip" data-id="'+esc(s.id)+'">Pause</button>':'<span class="muted">Paused</span>')+'</div></div>'}).join("")}
+function goPage(name){document.querySelectorAll(".page").forEach(function(p){p.classList.toggle("active",p.id==="page-"+name)});document.querySelectorAll(".navbtn").forEach(function(b){b.classList.toggle("active",b.dataset.page===name)});if(name==="activity")renderActivity(state.data.transfers||[],"fullActivity");window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(function(b){b.addEventListener("click",function(){goPage(b.dataset.page)})});document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){goPage(b.dataset.goto)})});
+function openModal(id){$(id).classList.add("open")}function closeModal(id){$(id).classList.remove("open")}
+document.querySelectorAll("[data-close]").forEach(function(b){b.addEventListener("click",function(){closeModal(b.dataset.close)})});document.querySelectorAll(".modal").forEach(function(m){m.addEventListener("click",function(e){if(e.target===m)closeModal(m.id)})});
+function promptAdmin(){openModal("adminModal");$("adminGate").classList.toggle("hidden",!!state.adminToken);$("adminDashboard").classList.toggle("hidden",!state.adminToken);if(state.adminToken)loadAdmin()}
+$("adminOpen").addEventListener("click",promptAdmin);document.addEventListener("keydown",function(e){if(e.altKey&&e.key.toLowerCase()==="t"){e.preventDefault();promptAdmin()}if(e.key==="Escape"){document.querySelectorAll(".modal.open").forEach(function(m){closeModal(m.id)})}});
+
+$("receiptCopy").addEventListener("click",async function(){try{await navigator.clipboard.writeText(state.lastReceipt);toast("Receipt copied","success")}catch(e){toast(state.lastReceipt)}});
+$("updateBannerBtn").addEventListener("click",showUpdateModal);
+$("updatesOpen").addEventListener("click",showUpdateModal);
+$("updateDownloadBtn").addEventListener("click",startUpdateFlow);
+$("updateRestartBtn").addEventListener("click",function(){if(window.lpiUpdater&&typeof window.lpiUpdater.showDownloadedFile==="function")window.lpiUpdater.showDownloadedFile();else toast("The update was handed to your device download service.")});
+$("spinBtn").addEventListener("click",async function(){
+ const b=$("spinBtn");if(b.disabled||!state.spinEnabled)return;b.disabled=true;const dial=$("spinDial");dial.classList.remove("spinning");void dial.offsetWidth;dial.classList.add("spinning");$("spinStatus").textContent="Spinning the global reward wheel…";
+ try{const r=await api("spin_play",{});await new Promise(function(resolve){setTimeout(resolve,2500)});dial.classList.remove("spinning");await refreshDashboard();const prize=r.result||{};showReceipt("Global Spin reward",prize.label||"Your city prize was granted.",[{label:"Prize",value:prize.label||"Game reward"},{label:"Reward type",value:String(prize.type||"reward").toUpperCase()},{label:"Reward amount",value:prize.type==="cashback"?String(prize.amount)+"% coupon":prize.type==="vip"?String(prize.amount)+" minutes":"+"+money(prize.amount)+" LPI"}],"LPI-SPIN-"+String(prize.spinDate||Date.now().toString(36)).toUpperCase());$("spinStatus").textContent="Reward claimed. Your next spin is available tomorrow."}
+ catch(err){dial.classList.remove("spinning");toast(err.message,"error");await refreshDashboard()}
+ finally{b.disabled=Boolean(state.data&&state.data.spinUsedToday)}
+});
+$("adminSpinForm").addEventListener("submit",async function(e){
+ e.preventDefault();const b=e.submitter;busy(b,true);
+ try{const r=await adminApi("admin_spin_update",{enabled:$("spinEnabled").checked,coins:$("spinCoins").value,cashbackPct:Number($("spinCashbackPct").value),vipMinutes:Number($("spinVipMinutes").value)});state.spinRewardConfig=r.rewardConfig||[];state.spinEnabled=r.enabled!==false;renderAdminSpinConfig();await refreshDashboard();toast("Global spin settings updated","success")}
+ catch(err){toast(err.message,"error")}finally{busy(b,false)}
+});
+$("adminMediaForm").addEventListener("submit",async function(e){
+ e.preventDefault();const b=e.submitter;const file=$("mediaFile").files[0];
+ if(!file){toast("Choose a photo or MP4 video","error");return}
+ if(file.size>4*1024*1024){toast("Choose a media file under 4 MB","error");return}
+ if(!["image/jpeg","image/png","image/webp","video/mp4"].includes(file.type)){toast("Only JPG, PNG, WebP or MP4 files are supported","error");return}
+ busy(b,true);
+ try{
+  const buf=new Uint8Array(await file.arrayBuffer());let binary="";
+  for(let i=0;i<buf.length;i+=0x8000)binary+=String.fromCharCode.apply(null,buf.subarray(i,Math.min(i+0x8000,buf.length)));
+  const r=await adminApi("admin_media_upload",{userId:$("mediaUser").value,title:$("mediaTitle").value,contentType:file.type,mediaBase64:btoa(binary)});
+  $("mediaCreated").classList.remove("hidden");$("mediaCreated").innerHTML='<div class="announce"><span class="tag">SENT</span><p>Media card sent to '+esc(r.userName)+'. It will appear in their home screen.</p></div>';
+  $("mediaFile").value="";$("mediaTitle").value="";toast("Media card uploaded and sent","success");
+ }catch(err){toast(err.message,"error")}finally{busy(b,false)}
+});
+
+$("adminLoginForm").addEventListener("submit",async function(e){e.preventDefault();const b=e.submitter;busy(b,true);try{const r=await api("admin_login",{password:$("adminPassword").value});state.adminToken=r.adminToken;$("adminPassword").value="";$("adminGate").classList.add("hidden");$("adminDashboard").classList.remove("hidden");toast("Admin panel unlocked","success");await loadAdmin()}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+async function adminApi(action,payload){return api(action,Object.assign({adminToken:state.adminToken},payload||{}))}
+async function loadAdmin(){if(!state.adminToken)return;try{const r=await Promise.all([adminApi("admin_users"),adminApi("admin_api_list"),adminApi("admin_spin_get")]);state.adminUsers=r[0].users||[];state.apiKeys=r[1].keys||[];state.spinRewardConfig=r[2].rewardConfig||[];state.spinEnabled=r[2].enabled!==false;renderAdminUsers();renderApiKeys();renderAdminSpinConfig()}catch(e){toast(e.message,"error");state.adminToken="";$("adminGate").classList.remove("hidden");$("adminDashboard").classList.add("hidden")}}
+function renderAdminUsers(){const users=state.adminUsers;$("mediaUser").innerHTML=users.map(function(u){return '<option value="'+esc(u.id)+'">'+esc(u.name)+(u.isVip?" · VIP":"")+'</option>'}).join("");$("grantUser").innerHTML=users.map(function(u){return '<option value="'+esc(u.id)+'">'+esc(u.name)+' · '+money(u.balance)+'</option>'}).join("");$("billUser").innerHTML=users.map(function(u){return '<option value="'+esc(u.id)+'">'+esc(u.name)+' · '+money(u.balance)+'</option>'}).join("");$("adminUserTable").innerHTML='<table class="table"><thead><tr><th>Player</th><th>Balance</th><th>Card</th><th>VIP</th><th>Joined</th></tr></thead><tbody>'+users.map(function(u){return '<tr><td>'+esc(u.name)+(u.isVip?'<span class="vip-crown" aria-label="VIP"><svg viewBox="0 0 24 24"><path d="M3 7.5 7.1 11l4.9-7 4.9 7L21 7.5 19 18H5z" fill="currentColor"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>':"")+'</td><td>'+money(u.balance)+' LPI</td><td>'+esc(u.cardBrand)+'</td><td>'+(u.isVip?'<span class="vip-crown" aria-label="VIP"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 8 4 3 5-7 5 7 4-3-2 10H5zM6 21h12" fill="currentColor"/></svg></span> Yes':"—")+'</td><td>'+esc(onlyDate(u.createdAt))+'</td></tr>'}).join("")+'</tbody></table>';if(!users.length)$("adminUserTable").innerHTML='<div class="empty">No users found.</div>'}
+function renderApiKeys(){$("apiKeysList").innerHTML=state.apiKeys.length?state.apiKeys.map(function(k){return '<div class="listitem"><div class="itemicon">⌘</div><div class="itemtext"><strong>'+esc(k.label)+'</strong><small>'+esc((k.scopes||[]).join(", "))+' · ••••'+esc(k.key_last4)+' · '+(k.is_active?"Active":"Revoked")+'</small></div><div class="itemamount">'+(k.is_active?'<button class="btn danger small" data-action="revoke-key" data-id="'+esc(k.id)+'">Revoke</button>':'')+'</div></div>'}).join(""):'<div class="empty">No API keys created yet.</div>'}
+$("refreshAdmin").addEventListener("click",loadAdmin);$("adminGrantForm").addEventListener("submit",async function(e){e.preventDefault();try{await adminApi("admin_grant",{userId:$("grantUser").value,amount:Number($("grantAmount").value),note:$("grantNote").value});toast("Coins granted","success");$("grantAmount").value="";await loadAdmin();await refreshDashboard()}catch(err){toast(err.message,"error")}});
+$("adminBillForm").addEventListener("submit",async function(e){e.preventDefault();try{const r=await adminApi("admin_bill_create",{userId:$("billUser").value,amount:Number($("billAmount").value),memo:$("billMemo").value});toast("Bill issued to "+r.userName,"success");$("billAmount").value="";await loadAdmin()}catch(err){toast(err.message,"error")}});
+$("adminAnnounceForm").addEventListener("submit",async function(e){e.preventDefault();try{await adminApi("admin_announce",{message:$("adminMessage").value});$("adminMessage").value="";toast("Global announcement posted","success");await refreshDashboard()}catch(err){toast(err.message,"error")}});
+$("adminApiForm").addEventListener("submit",async function(e){e.preventDefault();try{const scopes=Array.from(document.querySelectorAll('#adminApiForm input[type="checkbox"]:checked')).map(function(x){return x.value});const r=await adminApi("admin_api_create",{label:$("apiLabel").value,scopes:scopes});$("apiKeyCreated").classList.remove("hidden");$("apiKeyCreated").innerHTML='<div class="announce"><div class="annmeta"><span class="tag">COPY ONCE</span></div><strong>Sandbox API key created</strong><div class="mono" style="overflow-wrap:anywhere;color:var(--mint);margin:8px 0">'+esc(r.key)+'</div><button class="btn small" data-action="copy" data-text="'+esc(r.key)+'">Copy key</button><p class="fineprint">This key is shown once. It controls LPI game coins only. Keep it on a trusted server; never put it in a public web page or ask for real card details.</p></div>';toast("Sandbox API key created","success");await loadAdmin()}catch(err){toast(err.message,"error")}});
+$("adminExit").addEventListener("click",function(){state.adminToken="";$("adminGate").classList.remove("hidden");$("adminDashboard").classList.add("hidden");closeModal("adminModal");toast("Admin console locked")});
+
+
+let recipientSearchTimer=null,recipientSearchSeq=0;
+$("sendTo").addEventListener("input",function(){
+ const query=$("sendTo").value.trim(),hint=$("recipientVipHint");
+ if(recipientSearchTimer)clearTimeout(recipientSearchTimer);
+ const seq=++recipientSearchSeq;
+ if(query.length<2){hint.textContent="";return}
+ hint.innerHTML='<span class="hint-spinner"></span><span>Checking city player status…</span>';
+ recipientSearchTimer=setTimeout(async function(){
+  try{
+   const result=await api("directory_search",{query:query});
+   if(seq!==recipientSearchSeq)return;
+   const normalized=query.toLowerCase();
+   const match=(result.users||[]).find(function(u){return String(u.name||"").trim().toLowerCase()===normalized||String(u.nameKey||"").trim().toLowerCase()===normalized});
+   if(!match){hint.textContent="Type the player’s exact name to check their VIP status.";return}
+   if(match.isVip){hint.innerHTML='<span class="vip-crown" aria-label="VIP"><svg viewBox="0 0 24 24"><path d="M3 7.5 7.1 11l4.9-7 4.9 7L21 7.5 19 18H5z" fill="currentColor"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="vip-found">VIP player · Animated crown</span>'}
+   else{hint.innerHTML='<span class="player-found">✓ Player found · No active VIP crown</span>'}
+  }catch(err){if(seq===recipientSearchSeq)hint.textContent=""}
+ },240);
+});
+
+$("sendForm").addEventListener("submit",function(e){e.preventDefault();openPaymentReview(String($("sendTo").value||"").trim(),Number($("sendAmount").value),$("sendMethod").value)});$("paySwipe").addEventListener("input",function(){const v=Number(this.value||0);const track=this.parentElement,maxLeft=Math.max(5,track.clientWidth-51);$("paySwipeIcon").style.left=(5+(v/100)*Math.max(0,maxLeft-5))+"px";$("paySwipeText").textContent=v>=100?"CONFIRMING…":v>40?"KEEP SLIDING":"SLIDE TO CONFIRM";if(v>=100)settleTransfer()});$("tapPayNow").addEventListener("click",settleTransfer);$("bioSetupBtn").addEventListener("click",async function(){if(biometricCredentialId()){if(confirm("Remove this device's biometric setting?")){localStorage.removeItem("lpi_bio_credential");updateBiometricStatus();toast("Device verification setting removed")}return}await setupBiometric()});$("copyPersonalPayCode").addEventListener("click",async function(){const payload="lpi://payto/"+encodeURIComponent(state.user&&state.user.name||"");try{await navigator.clipboard.writeText(payload);toast("Personal game pay code copied","success")}catch(e){toast(payload)}});
+$("requestForm").addEventListener("submit",async function(e){e.preventDefault();const b=e.submitter;busy(b,true);try{const r=await api("request_create",{amount:Number($("requestAmount").value)});state.requestCode=r.code;$("requestResult").classList.remove("hidden");$("requestCode").textContent=r.code;$("requestExpires").textContent="Expires "+dateText(r.request.expires_at);$("requestQr").innerHTML="";if(typeof QRCode!=="undefined")new QRCode($("requestQr"),{text:r.qrPayload,width:150,height:150,colorDark:"#07111f",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});else $("requestQr").innerHTML='<div style="color:#111;padding:10px">QR library unavailable. Share the code.</div>';$("requestAmount").value="";toast("Request created. Share the code with the payer.","success");await refreshDashboard()}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("copyRequestCode").addEventListener("click",async function(){try{await navigator.clipboard.writeText(state.requestCode);toast("Request code copied","success")}catch(e){toast("Request code: "+state.requestCode)}});
+$("payCodeForm").addEventListener("submit",async function(e){e.preventDefault();const b=e.submitter;busy(b,true);try{const r=await api("request_lookup",{code:$("payCode").value});state.payRequest=r.request;$("payReviewInfo").innerHTML='<div class="rowbetween"><span class="muted">Pay to</span><strong>'+esc(r.request.receiverName)+'</strong></div><div class="rowbetween"><span class="muted">Amount</span><strong class="coin">'+money(r.request.amount)+' LPI</strong></div><div class="fineprint">This payment will move fictional game coins, not money.</div>';$("payReview").classList.remove("hidden")}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("approveRequest").addEventListener("click",async function(){if(!state.payRequest)return;const b=$("approveRequest");if(!confirm("Approve "+money(state.payRequest.amount)+" LPI to "+state.payRequest.receiverName+"?"))return;busy(b,true);try{const r=await api("request_approve",{requestId:state.payRequest.id});toast("Payment complete"+(r.result.cashback>0?"; VIP cashback "+r.result.cashback_percent+"%":"") ,"success");showReceipt("Payment complete","The request has been approved and settled in game coins.",[{label:"Paid to",value:state.payRequest.receiverName},{label:"Transfer amount",value:money(r.result.amount||state.payRequest.amount)+" LPI"},{label:"VIP discount",value:money(r.result.discount||0)+" LPI"},{label:"Cashback",value:money(r.result.cashback||0)+" LPI"}],r.result.transfer_id||("LPI-REQ-"+Date.now().toString(36).toUpperCase()));state.payRequest=null;$("payReview").classList.add("hidden");$("payCode").value="";await refreshDashboard()}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("scanBtn").addEventListener("click",async function(){if(typeof Html5Qrcode==="undefined"){toast("QR scanner is unavailable. Enter the 6-digit code manually.");return}openModal("scannerModal");try{state.scanner=new Html5Qrcode("reader");await state.scanner.start({facingMode:"environment"},{fps:10,qrbox:{width:220,height:220}},async function(decoded){const raw=String(decoded||"");if(raw.indexOf("lpi://payto/")===0){try{$("sendTo").value=decodeURIComponent(raw.slice("lpi://payto/".length));$("sendAmount").focus();await stopScanner();closeModal("scannerModal");toast("Player loaded. Enter any game-coin amount and slide to pay.","success");return}catch(err){toast("This player QR could not be read.","error");return}}const digits=raw.replace(/\D/g,"");if(digits.length>=6){$("payCode").value=digits.slice(-6);await stopScanner();closeModal("scannerModal");toast("QR scanned. Tap Check code.")}},function(){})}catch(e){toast("Could not start camera. Enter the code manually.","error") }});
+async function stopScanner(){try{if(state.scanner){await state.scanner.stop();state.scanner.clear();state.scanner=null}}catch(e){state.scanner=null}}
+document.querySelectorAll('[data-close="scannerModal"]').forEach(function(b){b.addEventListener("click",stopScanner)});
+$("copyCardId").addEventListener("click",async function(){const id=state.data&&state.data.card&&state.data.card.card_id;if(!id){toast("Player ID is not available yet.","error");return}try{await navigator.clipboard.writeText(id);toast("Player ID copied","success")}catch(e){toast("Your player ID: "+id)}});
+async function buyVip(duration){if(!state.user)return;duration=duration||"30m";if(state.user.isVip){toast("This account already has active VIP.","error");return}const cost=duration==="lifetime"?19999:1999;const label=duration==="lifetime"?"Lifetime VIP":"30-minute VIP";if(!confirm("Unlock "+label+" for "+money(cost)+" LPI game coins? These are fictional game coins, not rupees or real money."))return;try{await api("vip_buy",{duration:duration});await refreshDashboard();showReceipt("VIP unlocked",label+" is now active.",[{label:"VIP plan",value:label},{label:"Game coin cost",value:money(cost)+" LPI"},{label:"Name crown",value:"Animated VIP crown"}],"LPI-VIP-"+Date.now().toString(36).toUpperCase());toast("VIP unlocked! The global city announcement is live.","success")}catch(e){toast(e.message,"error")}}
+document.body.addEventListener("click",async function(e){const b=e.target.closest("[data-action]");if(!b)return;const action=b.dataset.action;if(action==="buy-vip"){await buyVip(b.dataset.duration||"30m");return}if(action==="check-updates"){await showUpdateModal();return}if(action==="pay-bill"){if(!confirm("Pay this city bill using LPI game coins?"))return;try{const billInfo=(state.data.bills||[]).find(function(x){return x.id===b.dataset.id});await api("bill_pay",{billId:b.dataset.id});toast("City bill paid","success");await refreshDashboard();showReceipt("Bill paid","Your simulated city bill is now marked as paid.",[{label:"Description",value:billInfo?billInfo.memo:"City bill"},{label:"Amount",value:billInfo?money(billInfo.amount)+" LPI":"Paid from LPI game coins"},{label:"Status",value:"PAID"}],"LPI-BILL-"+String(b.dataset.id).slice(0,8).toUpperCase())}catch(err){toast(err.message,"error")}return}if(action==="postpone-bill"){try{const r=await api("bill_postpone",{billId:b.dataset.id});toast(r.message,"success");await refreshDashboard()}catch(err){toast(err.message,"error")}return}if(action==="cancel-sip"){if(!confirm("Pause this daily game-coin SIP?"))return;try{await api("sip_cancel",{sipId:b.dataset.id});toast("SIP paused","success");await refreshDashboard()}catch(err){toast(err.message,"error")}return}if(action==="copy"){try{await navigator.clipboard.writeText(b.dataset.text);toast("Copied","success")}catch(err){toast(b.dataset.text)}return}if(action==="revoke-key"){if(!confirm("Revoke this sandbox API key? Connected apps will stop working."))return;try{await adminApi("admin_api_revoke",{keyId:b.dataset.id});toast("API key revoked","success");await loadAdmin()}catch(err){toast(err.message,"error")}return}});
+$("giftCreateForm").addEventListener("submit",async function(e){e.preventDefault();const amount=Number($("giftAmount").value),brand=$("giftBrand").value;if(!confirm("Create a one-time "+brand+" gift card for "+money(amount)+" game coins? This amount will be debited now."))return;const b=e.submitter;busy(b,true);try{const r=await api("gift_create",{amount:amount,giftBrand:brand});$("giftCreated").classList.remove("hidden");$("giftCreated").innerHTML='<div class="announce"><div class="annmeta"><span class="tag gold">ONE-TIME CODE</span><span class="tag">'+esc(r.brand)+'</span></div><div class="codebig mono" style="font-size:19px;letter-spacing:2px">'+esc(r.code)+'</div><p class="fineprint">'+money(amount)+' LPI game coins · any LPI card style can redeem.</p><button class="btn small" data-action="copy" data-text="'+esc(r.code)+'">Copy gift code</button></div>';$("giftAmount").value="";toast(r.codeSaved?"Gift card created. Its code is saved in history.":"Gift card created, but its code could not be saved for later; copy it now.","success");await refreshDashboard()}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("giftRedeemForm").addEventListener("submit",async function(e){e.preventDefault();const b=e.submitter;busy(b,true);try{const r=await api("gift_redeem",{code:$("giftCode").value});toast("Gift redeemed: +"+money(r.result.amount)+" LPI","success");$("giftCode").value="";await refreshDashboard();showReceipt("Gift redeemed","A one-time city gift code was accepted.",[{label:"Reward",value:"+"+money(r.result.amount)+" LPI"},{label:"Status",value:"Redeemed once"}],"LPI-GIFT-"+Date.now().toString(36).toUpperCase())}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("goldTradeForm").addEventListener("submit",async function(e){e.preventDefault();const side=$("goldSide").value;const units=Number($("goldUnitsInput").value);if(!confirm((side==="buy"?"Buy ":"Sell ")+units+" simulated gold units at the current game price?"))return;const b=e.submitter;busy(b,true);try{const r=await api("gold_trade",{side:side,units:units});toast("Gold "+side+" order completed · "+money(r.result.total)+" LPI","success");$("goldUnitsInput").value="";await refreshDashboard();showReceipt("Gold order complete","A simulated game-market order was recorded.",[{label:"Side",value:side.toUpperCase()},{label:"Units",value:String(r.result.units)},{label:"Total",value:money(r.result.total)+" LPI"}],"LPI-GOLD-"+Date.now().toString(36).toUpperCase())}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+$("refreshGold").addEventListener("click",async function(){try{const r=await api("gold_quote");state.data.gold.price=r.price;state.data.gold.units=r.units;state.data.gold.updatedAt=r.updatedAt;$("goldPrice").textContent=money(Number(r.price).toFixed(2));$("goldUnits").textContent=Number(r.units).toFixed(3);$("goldUpdated").textContent="Updated "+dateText(r.updatedAt)+" · random game-only price movement";toast("Gold quote refreshed","success")}catch(e){toast(e.message,"error")}});
+$("sipForm").addEventListener("submit",async function(e){e.preventDefault();const b=e.submitter;busy(b,true);try{await api("sip_create",{amount:Number($("sipAmount").value)});toast("Daily SIP created","success");await refreshDashboard()}catch(err){toast(err.message,"error")}finally{busy(b,false)}});
+async function signOut(noCall){if(!noCall){try{await api("logout",{adminToken:state.adminToken})}catch(e){}}state.token="";state.adminToken="";state.user=null;state.data=null;localStorage.removeItem("lpi_token");$("appShell").classList.remove("ready");$("authScreen").classList.remove("hidden");$("adminDashboard").classList.add("hidden");$("adminGate").classList.remove("hidden");closeModal("adminModal")}
+$("logoutBtn").addEventListener("click",function(){signOut(false)});
+if(state.token){api("dashboard").then(function(){return enterApp()}).catch(function(){localStorage.removeItem("lpi_token");state.token="";$("authScreen").classList.remove("hidden")})}
+window.addEventListener("beforeunload",function(){if(state.scanner)stopScanner()});
+})();
+</script>
+</body>
+</html>
