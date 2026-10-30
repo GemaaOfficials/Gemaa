@@ -1,5 +1,11 @@
 # LPI City Money
 
+## Downloads · v0.3.1
+
+- **Windows installer (EXE):** https://github.com/GemaaOfficials/Gemaa/releases/download/lpi-v0.3.1/LPI.City.Money.Setup.0.3.1.exe
+- **Android app (APK):** https://github.com/GemaaOfficials/Gemaa/releases/download/lpi-v0.3.1/app-debug.apk
+- **All release files and notes:** https://github.com/GemaaOfficials/Gemaa/releases/tag/lpi-v0.3.1
+
 A mobile-friendly, globally synced **fictional city-money game** for friends. Version 0.3.1 adds a blue/green pixel-inspired redesign, an in-app updater with byte-based download progress on Windows, a compatible-build check, SVG iconography, animated payment review and slide-to-confirm flow, personal open-amount pay QR codes, saved issued gift cards, and an admin-controlled daily spin. It uses LPI game coins only: there are no real bank accounts, actual UPI payments, cash withdrawals, or redeemable rupees.
 
 ## Features
